@@ -19,7 +19,7 @@ export default function Login() {
         password: password,
       };
   
-      const response = await fetch(`${process.env.NEXT_PUBLIC_DJANGO_URL}super-admin-login/`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_DJANGO_URLS}super-admin-login/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
