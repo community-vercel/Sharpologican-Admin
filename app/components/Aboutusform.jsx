@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 
@@ -24,7 +24,8 @@ const [superAdmin, setSuperAdmin] = useState(null);
         setSuperAdmin(JSON.parse(superAdminData));
       }
     }
-  }, []);  const handleImageChange = (e) => {
+  }, []);
+    const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setImage(file);
