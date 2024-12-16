@@ -20,7 +20,8 @@ const EditService = () => {
         setSuperAdmin(JSON.parse(superAdminData));
       }
     }
-  }, []);  const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
+  }, []);  
+  const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
 
   useEffect(() => {
     if (!id) return;

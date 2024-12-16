@@ -14,7 +14,7 @@ const AboutUsForm = ({ initialData = {} }) => {
   const [image, setImage] = useState(null);
   const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
 
-const [superAdmin, setSuperAdmin] = useState(null);
+  const [superAdmin, setSuperAdmin] = useState(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -24,7 +24,7 @@ const [superAdmin, setSuperAdmin] = useState(null);
         setSuperAdmin(JSON.parse(superAdminData));
       }
     }
-  }, []);
+  }, []);  
     const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
