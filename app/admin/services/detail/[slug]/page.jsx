@@ -14,7 +14,8 @@ const AddServiceDetails = () => {
   const [textField2, setTextField2] = useState("");
   const params = useParams();
   const router = useRouter();
-  const serverurl = process.env.NEXT_PUBLIC_DJANGO_URL;
+  const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
+  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
   const [service, setServices] = useState();
   const [keywords, setKeywords] = useState([]);
   const [keywordInput, setKeywordInput] = useState("");
@@ -30,7 +31,7 @@ const AddServiceDetails = () => {
       formData.append("slug", params.slug);
 
       try {
-        const response = await fetch(`${serverurl}get-servicedetails/`, {
+        const response = await fetch(`${serverurls}get-servicedetails/`, {
           method: "POST",
 
           body: formData,
@@ -89,7 +90,7 @@ const AddServiceDetails = () => {
 
     try {
       if (service && service) {
-        const response = await fetch(`${serverurl}update-servicedetails/`, {
+        const response = await fetch(`${serverurls}update-servicedetails/`, {
           method: "POST",
           headers: {
             "x-super-admin": JSON.stringify(superAdmin), // Send super admin info in headers
@@ -101,7 +102,7 @@ const AddServiceDetails = () => {
           router.push("/admin/services");
         }
       } else {
-        const response = await fetch(`${serverurl}add-servicedetails/`, {
+        const response = await fetch(`${serverurls}add-servicedetails/`, {
           method: "POST",
           headers: {
             "x-super-admin": JSON.stringify(superAdmin), // Send super admin info in headers

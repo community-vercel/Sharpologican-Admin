@@ -28,6 +28,7 @@ const router=useRouter()
     }
   };
   const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
+  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
 
 const [superAdmin, setSuperAdmin] = useState(null);
   
@@ -57,7 +58,7 @@ const [superAdmin, setSuperAdmin] = useState(null);
 if(teamMember && teamMember.id){
   formData.append('id',teamMember.id);
 
-  const response = await fetch(`${serverurl}update-team/`, {
+  const response = await fetch(`${serverurls}update-team/`, {
     method: "POST",
     headers: {
   
@@ -77,7 +78,7 @@ if(teamMember && teamMember.id){
 
  
 // Send the data to the backend API for saving
-const response = await fetch(`${serverurl}add-team/`, {
+const response = await fetch(`${serverurls}add-team/`, {
   method: "POST",
   headers: {
 

@@ -12,12 +12,13 @@ const NewsForm = ({teamMember }) => {
   const [des, setdes] = useState('');
     const [newsData, setnewsData] = useState();
     const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
-  const [superAdmin, setSuperAdmin] = useState(null);
+    const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
+    const [superAdmin, setSuperAdmin] = useState(null);
   
     useEffect(() => {
       const fetchnewsData = async () => {
         try {
-          const response = await fetch(`${serverurl}news/`);
+          const response = await fetch(`${serverurls}news/`);
           const data = await response.json();
           setnewsData(data.data);
           setdes(newsData.des || teamMember.description || '')
@@ -70,7 +71,7 @@ const NewsForm = ({teamMember }) => {
 if(teamMember && teamMember.id){
   formData.append('id',teamMember.id);
 
-  const response = await fetch(`${serverurl}update-news/`, {
+  const response = await fetch(`${serverurls}update-news/`, {
     method: "POST",
     headers: {
   
@@ -89,7 +90,7 @@ if (response.ok) {
 }
 else{
 // Send the data to the backend API for saving
-const response = await fetch(`${serverurl}add-news/`, {
+const response = await fetch(`${serverurls}add-news/`, {
   method: "POST",
   headers: {
 

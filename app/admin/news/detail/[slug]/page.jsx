@@ -16,7 +16,8 @@ const AddportfolioDetails = () => {
 
   const params = useParams();
   const router = useRouter();
-  const serverurl = process.env.NEXT_PUBLIC_DJANGO_URL;
+  const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
+  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
   const [service, setServices] = useState();
   const [superAdmin, setSuperAdmin] = useState(null);
 
@@ -35,7 +36,7 @@ const AddportfolioDetails = () => {
       formData.append("slug", params.slug);
 
       try {
-        const response = await fetch(`${serverurl}get-newsdetails/`, {
+        const response = await fetch(`${serverurls}get-newsdetails/`, {
           method: "POST",
 
           body: formData,
@@ -87,7 +88,7 @@ const AddportfolioDetails = () => {
       if (service && service) {
         formData.append("id", service.id);
 
-        const response = await fetch(`${serverurl}update-newsdetails/`, {
+        const response = await fetch(`${serverurls}update-newsdetails/`, {
           method: "POST",
           headers: {
             "x-super-admin": JSON.stringify(superAdmin), // Send super admin info in headers
@@ -99,7 +100,7 @@ const AddportfolioDetails = () => {
           router.push("/admin/news");
         }
       } else {
-        const response = await fetch(`${serverurl}add-newsdetails/`, {
+        const response = await fetch(`${serverurls}add-newsdetails/`, {
           method: "POST",
           headers: {
             "x-super-admin": JSON.stringify(superAdmin), // Send super admin info in headers

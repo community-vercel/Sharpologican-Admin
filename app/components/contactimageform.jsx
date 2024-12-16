@@ -20,7 +20,8 @@ const ImageUploadForm = () => {
     }
   }, []);
   const [newsData, setnewsData] = useState();
-  const serverurl = process.env.NEXT_PUBLIC_DJANGO_URL;
+  const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
+  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
   const [title, setTitle] = useState("");
   const [heading, setheading] = useState("");
   const [heading3, setheading3] = useState("");
@@ -28,14 +29,14 @@ const ImageUploadForm = () => {
   useEffect(() => {
     const fetchnewsData = async () => {
       try {
-        const response = await fetch(`${serverurl}contact/`);
+        const response = await fetch(`${serverurls}contact/`);
         const data = await response.json();
         setContactImage(serverurl + data.data.contact_image);
         setTitle(data.data.title)
         setheading(data.data.heading)
         setheading3(data.data.heading3)
 
-        const response3 = await fetch(`${serverurl}clients/`);
+        const response3 = await fetch(`${serverurls}clients/`);
         const data3 = await response3.json();
         setClientImages(data3.data);
       } catch (error) {
@@ -65,7 +66,7 @@ const ImageUploadForm = () => {
         console.log(image.client_id)
 
         const clientId = image.client_id;
-        const response = await fetch(`${serverurl}/delete-image/${clientId}/`, {
+        const response = await fetch(`${serverurls}/delete-image/${clientId}/`, {
           method: "DELETE",
         });
   
@@ -116,7 +117,7 @@ const ImageUploadForm = () => {
     // Handle form submission logic here, e.g., API request
 
     // Send the data to the backend API for saving
-    const response = await fetch(`${serverurl}add-contact/`, {
+    const response = await fetch(`${serverurls}add-contact/`, {
       method: "POST",
       headers: {
         "x-super-admin": JSON.stringify(superAdmin), // Send super admin info in headers

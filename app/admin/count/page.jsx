@@ -7,13 +7,15 @@ import { toast } from 'react-toastify';
 const count = () => {
   const [services, setServices] = useState([]);
   const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
+  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
+
   const [superAdmin, setSuperAdmin] = useState(null);
 
  
 
   useEffect(() => {
     const fetchServices = async () => {
-      const response = await fetch(`${serverurl}get-count/`);
+      const response = await fetch(`${serverurls}get-count/`);
       const data = await response.json();
       setServices(data.data);
     };
@@ -30,7 +32,7 @@ const count = () => {
   const handleDelete = async (id) => {
     const formData = new FormData();
     formData.append('id',id);
-    const response = await fetch(`${serverurl}delete-counts/`, {
+    const response = await fetch(`${serverurls}delete-counts/`, {
     method: 'POST',
     headers: {
     

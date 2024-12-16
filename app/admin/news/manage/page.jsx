@@ -7,12 +7,13 @@ NewsForm
 const NewsMangage = () => {
   const [newsData, setnewsData] = useState();
   const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
+  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
   const [superAdmin, setSuperAdmin] = useState(null);
 
   useEffect(() => {
     const fetchnewsData = async () => {
       try {
-        const response = await fetch(`${serverurl}news/`);
+        const response = await fetch(`${serverurls}news/`);
         const data = await response.json();
         setnewsData(data.data);
       } catch (error) {
@@ -38,7 +39,7 @@ const NewsMangage = () => {
   const handleDelete = async (id) => {
     const formData = new FormData();
     formData.append('id',id);
-    const response = await fetch(`${serverurl}delete-news/`, {
+    const response = await fetch(`${serverurls}delete-news/`, {
     method: 'POST',
     headers: {
     

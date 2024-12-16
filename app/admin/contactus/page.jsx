@@ -14,7 +14,8 @@ const AddContactus = () => {
 
   const params = useParams();
   const router = useRouter();
-  const serverurl = process.env.NEXT_PUBLIC_DJANGO_URL;
+  const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
+  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
   const [service, setServices] = useState();
     const [superAdmin, setSuperAdmin] = useState(null);
 
@@ -23,7 +24,7 @@ const AddContactus = () => {
       const formData = new FormData();
 
       try {
-        const response = await fetch(`${serverurl}get-contactus/`);
+        const response = await fetch(`${serverurls}get-contactus/`);
         const data = await response.json();
         if (response.ok) {
          
@@ -63,7 +64,7 @@ const AddContactus = () => {
 
     try {
      
-        const response = await fetch(`${serverurl}add-contactus/`, {
+        const response = await fetch(`${serverurls}add-contactus/`, {
           method: "POST",
           headers: {
             "x-super-admin": JSON.stringify(superAdmin), // Send super admin info in headers

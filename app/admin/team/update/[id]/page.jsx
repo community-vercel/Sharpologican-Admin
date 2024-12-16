@@ -20,7 +20,9 @@ const EditTeam = () => {
         setSuperAdmin(JSON.parse(superAdminData));
       }
     }
-  }, []);  const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
+  }, []);  
+  const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
+  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
 
   useEffect(() => {
     if (!id) return;
@@ -28,7 +30,7 @@ const EditTeam = () => {
     const fetchteam = async () => {
       const formData = new FormData();
     formData.append('id',id);
-    const response = await fetch(`${serverurl}get-team/`, {
+    const response = await fetch(`${serverurls}get-team/`, {
     method: 'POST',
     headers: {
     

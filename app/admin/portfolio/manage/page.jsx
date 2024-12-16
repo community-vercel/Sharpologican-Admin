@@ -7,13 +7,14 @@ const PortfolioManage = () => {
 
   const [portfolioData, setPortfolioData] = useState();
   const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
+  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
   const [superAdmin, setSuperAdmin] = useState(null);
 
  
   useEffect(() => {
     const fetchportfolioData = async () => {
       try {
-        const response = await fetch(`${serverurl}portfolio/`);
+        const response = await fetch(`${serverurls}portfolio/`);
         const data = await response.json();
         setPortfolioData(data.data);
       } catch (error) {
@@ -47,7 +48,7 @@ const PortfolioManage = () => {
   const handleDelete = async (id) => {
     const formData = new FormData();
     formData.append('id',id);
-    const response = await fetch(`${serverurl}delete-portfolio/`, {
+    const response = await fetch(`${serverurls}delete-portfolio/`, {
     method: 'POST',
     headers: {
     
@@ -57,7 +58,7 @@ const PortfolioManage = () => {
   });
 
   const data = await response.json();
-  // const response = await fetch(`${serverurl}/services/${id}`, { method: 'DELETE' });
+  // const response = await fetch(`${serverurls}/services/${id}`, { method: 'DELETE' });
     if (response.ok) {
       toast.success("Date deleted Sucessfully")
 

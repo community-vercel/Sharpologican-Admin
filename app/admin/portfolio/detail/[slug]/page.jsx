@@ -18,7 +18,8 @@ const AddportfolioDetails = () => {
 
   const params = useParams();
   const router = useRouter();
-  const serverurl = process.env.NEXT_PUBLIC_DJANGO_URL;
+  const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
+  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
   const [service, setServices] = useState();
   const [keywords, setKeywords] = useState([]);
   const [keywordInput, setKeywordInput] = useState("");
@@ -34,7 +35,7 @@ const AddportfolioDetails = () => {
       formData.append("slug", params.slug);
 
       try {
-        const response = await fetch(`${serverurl}get-portfoliodetails/`, {
+        const response = await fetch(`${serverurls}get-portfoliodetails/`, {
           method: "POST",
 
           body: formData,
@@ -102,7 +103,7 @@ const AddportfolioDetails = () => {
       if (service && service) {
         formData.append("id", service.id);
 
-        const response = await fetch(`${serverurl}update-portfoliodetails/`, {
+        const response = await fetch(`${serverurls}update-portfoliodetails/`, {
           method: "POST",
           headers: {
             "x-super-admin": JSON.stringify(superAdmin), // Send super admin info in headers
@@ -114,7 +115,7 @@ const AddportfolioDetails = () => {
           router.push("/admin/portfolio");
         }
       } else {
-        const response = await fetch(`${serverurl}add-portfoliodetails/`, {
+        const response = await fetch(`${serverurls}add-portfoliodetails/`, {
           method: "POST",
           headers: {
             "x-super-admin": JSON.stringify(superAdmin), // Send super admin info in headers

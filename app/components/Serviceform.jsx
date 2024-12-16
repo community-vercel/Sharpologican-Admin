@@ -10,6 +10,7 @@ const ServiceForm = ({ initialData = {} }) => {
   const [detailedDescription, setDetailedDescription] = useState(initialData.detailedDescription || '');
   const [image, setImage] = useState(null);
   const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
+  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
 
   const handleImageChange = (e) => {
     const file = e.target.files[0]; // Get the first file from the input
@@ -60,7 +61,7 @@ const [superAdmin, setSuperAdmin] = useState(null);
       if(initialData.id){
         formData.append("id", initialData.id);
 
-        const response = await fetch(`${serverurl}update-service/`, {
+        const response = await fetch(`${serverurls}update-service/`, {
           method: "POST",
           headers: {
   
@@ -82,7 +83,7 @@ const [superAdmin, setSuperAdmin] = useState(null);
             }
       }
       else{
-        const response = await fetch(`${serverurl}add-service/`, {
+        const response = await fetch(`${serverurls}add-service/`, {
           method: "POST",
           headers: {
   

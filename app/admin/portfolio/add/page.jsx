@@ -10,13 +10,14 @@ const Editportfolio = () => {
   const [portfolio, setportfolio] = useState(null);
  
   const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
+  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
 
   useEffect(() => {
    
 
     const fetchService = async () => {
       const formData = new FormData();
-    const response = await fetch(`${serverurl}portfolio/`);
+    const response = await fetch(`${serverurls}portfolio/`);
 
       const data = await response.json();
       setportfolio(data.data);

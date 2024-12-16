@@ -11,6 +11,7 @@ const CountForm = ({ initialData = {} }) => {
   const [num, setSecondTitle] = useState(initialData.num || '');
  
   const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
+  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
 
   const [superAdmin, setSuperAdmin] = useState(null);
 
@@ -42,7 +43,7 @@ const CountForm = ({ initialData = {} }) => {
     
     if(initialData && initialData.id){
       formData.append('id',initialData.id)
-      const response = await fetch(`${serverurl}add-count/`, {
+      const response = await fetch(`${serverurls}add-count/`, {
         method: "POST",
         headers: {
   
@@ -62,7 +63,7 @@ const CountForm = ({ initialData = {} }) => {
     } 
     
     else{
-    const response = await fetch(`${serverurl}add-count/`, {
+    const response = await fetch(`${serverurls}add-count/`, {
       method: "POST",
       headers: {
 

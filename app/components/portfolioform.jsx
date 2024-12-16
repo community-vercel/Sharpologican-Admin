@@ -14,6 +14,7 @@ const PortfolioForm = ({ onSubmit, portfolioItem }) => {
 
   const [image, setImage] = useState(null);
   const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
+  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
 
 const [superAdmin, setSuperAdmin] = useState(null);
   
@@ -48,7 +49,7 @@ const [superAdmin, setSuperAdmin] = useState(null);
     if(portfolioItem && portfolioItem.id){
       formData.append('id',portfolioItem.id);
 
-      const response = await fetch(`${serverurl}update-portfolio/`, {
+      const response = await fetch(`${serverurls}update-portfolio/`, {
         method: "POST",
         headers: {
   
@@ -64,7 +65,7 @@ const [superAdmin, setSuperAdmin] = useState(null);
       }
     }
     else{
-      const response = await fetch(`${serverurl}add-portfolio/`, {
+      const response = await fetch(`${serverurls}add-portfolio/`, {
         method: "POST",
         headers: {
   

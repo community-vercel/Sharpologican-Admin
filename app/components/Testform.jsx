@@ -8,6 +8,7 @@ const TestimonialForm = ({ onSubmit, isEditing, testimonial }) => {
   const [title, setTitle] = useState('');
   const [image, setImage] = useState(null);
   const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
+  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
 
 const [superAdmin, setSuperAdmin] = useState(null);
   
@@ -47,7 +48,7 @@ const [superAdmin, setSuperAdmin] = useState(null);
 if(testimonial && testimonial.id){
   formData.append('id', testimonial.id);
 
-  const response = await fetch(`${serverurl}update-test/`, {
+  const response = await fetch(`${serverurls}update-test/`, {
     method: "POST",
     headers: {
   
@@ -68,7 +69,7 @@ if(testimonial && testimonial.id){
 else{
  
 // Send the data to the backend API for saving
-const response = await fetch(`${serverurl}add-testimonial/`, {
+const response = await fetch(`${serverurls}add-testimonial/`, {
   method: "POST",
   headers: {
 

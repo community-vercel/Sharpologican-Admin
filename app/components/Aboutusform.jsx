@@ -13,6 +13,7 @@ const AboutUsForm = ({ initialData = {} }) => {
   const [secondDescription, setSecondDescription] = useState(initialData?.secondDescription || '');
   const [image, setImage] = useState(null);
   const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
+  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
 
   const [superAdmin, setSuperAdmin] = useState(null);
 
@@ -49,7 +50,7 @@ const AboutUsForm = ({ initialData = {} }) => {
     
      
     // Send the data to the backend API for saving
-    const response = await fetch(`${serverurl}add-about-us/`, {
+    const response = await fetch(`${serverurls}add-about-us/`, {
       method: "POST",
       headers: {
 

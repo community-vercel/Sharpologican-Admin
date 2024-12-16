@@ -5,12 +5,13 @@ import { toast } from 'react-toastify';
 const TestManage = () => {
   const [testimonials, setTestimonials] = useState();
   const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
+  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
   const [superAdmin, setSuperAdmin] = useState(null);
 
   useEffect(() => {
     const fetchteamData = async () => {
       try {
-        const response = await fetch(`${serverurl}testimonials/`);
+        const response = await fetch(`${serverurls}testimonials/`);
         const data = await response.json();
         setTestimonials(data.data);
       } catch (error) {
@@ -50,7 +51,7 @@ const TestManage = () => {
   const handleDelete = async (id) => {
     const formData = new FormData();
     formData.append('id',id);
-    const response = await fetch(`${serverurl}delete-test/`, {
+    const response = await fetch(`${serverurls}delete-test/`, {
     method: 'POST',
     headers: {
     
@@ -60,7 +61,7 @@ const TestManage = () => {
   });
 
   const data = await response.json();
-  // const response = await fetch(`${serverurl}/services/${id}`, { method: 'DELETE' });
+  // const response = await fetch(`${serverurls}/services/${id}`, { method: 'DELETE' });
     if (response.ok) {
       toast.success("Date deleted Sucessfully")
 
