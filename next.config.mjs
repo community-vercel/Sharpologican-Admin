@@ -4,6 +4,21 @@ const nextConfig = {
 
     basePath: '/old',
 
+
+   images: {
+      domains: [ "community-hazel.vercel.app","sharplogicians.com","localhost:3000/new","localhost:3002","127.0.0.1", "127.0.0.1:8000","picsum.photos"],
+      remotePatterns: [
+        {
+          protocol: "https",
+          hostname: "*.googleusercontent.com",
+          port: "",
+          pathname: "**",
+        },
+      ],
+    },
+
+
+
     // reactStrictMode: true,  // Enables React Strict Mode for better development warnings
   
     // // Enable support for CSS modules and SCSS
@@ -31,3 +46,4 @@ const nextConfig = {
   };
   
   export default nextConfig;
+
