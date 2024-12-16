@@ -5,16 +5,16 @@ import { useRouter } from 'next/navigation';
 
 const AboutUsForm = ({ initialData = {} }) => {
   const router=useRouter();
-  const [heading, setHeading] = useState(initialData.heading || '');
-  const [description, setDescription] = useState(initialData.description || '');
-  const [firstTitle, setFirstTitle] = useState(initialData.firstTitle || '');
-  const [secondTitle, setSecondTitle] = useState(initialData.secondTitle || '');
-  const [firstDescription, setFirstDescription] = useState(initialData.firstDescription || '');
-  const [secondDescription, setSecondDescription] = useState(initialData.secondDescription || '');
+  const [heading, setHeading] = useState(initialData?.heading || '');
+  const [description, setDescription] = useState(initialData?.description || '');
+  const [firstTitle, setFirstTitle] = useState(initialData?.firstTitle || '');
+  const [secondTitle, setSecondTitle] = useState(initialData?.secondTitle || '');
+  const [firstDescription, setFirstDescription] = useState(initialData?.firstDescription || '');
+  const [secondDescription, setSecondDescription] = useState(initialData?.secondDescription || '');
   const [image, setImage] = useState(null);
   const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
 
-const [superAdmin, setSuperAdmin] = useState(null);
+  const [superAdmin, setSuperAdmin] = useState(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -24,7 +24,7 @@ const [superAdmin, setSuperAdmin] = useState(null);
         setSuperAdmin(JSON.parse(superAdminData));
       }
     }
-  }, []);
+  }, []);  
     const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
