@@ -17,9 +17,8 @@ const [superAdmin, setSuperAdmin] = useState(null);
     if (typeof window !== 'undefined') {
       // Now it's safe to use localStorage in the browser
       const superAdminData = localStorage.getItem("superAdmin");
-      if (superAdminData) {
-        setSuperAdmin(JSON.parse(superAdminData));
-      }
+      setSuperAdmin(superAdminData);
+
     }
   }, []); 
   const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;

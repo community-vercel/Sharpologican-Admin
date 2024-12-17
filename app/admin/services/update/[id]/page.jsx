@@ -30,7 +30,7 @@ const EditService = () => {
     const fetchService = async () => {
       const formData = new FormData();
     formData.append('id',id);
-    const response = await fetch(`${serverurl}get-service/`, {
+    const response = await fetch(`${serverurls}get-service/`, {
     method: 'POST',
     headers: {
     
