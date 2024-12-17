@@ -80,10 +80,7 @@ const NewsMangage = () => {
         </Link>
         </div>
 
-      {/* Team Form: Add or Edit Team Member */}
-      
-
-      {/* Team List */}
+    
       <div className="mt-8">
         <h3 className="text-2xl font-bold">News List</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
