@@ -27,8 +27,8 @@ const [superAdmin, setSuperAdmin] = useState(null);
 
   useEffect(() => {
     if (!id) return;
-
-    const fetchteam = async () => {
+if(superAdmin){
+      const fetchteam = async () => {
       const formData = new FormData();
     formData.append('id',id);
     const response = await fetch(`${serverurls}get-test/`, {
@@ -45,7 +45,8 @@ const [superAdmin, setSuperAdmin] = useState(null);
     };
 
     fetchteam();
-  }, [id]);
+  }
+  }, [id,superAdmin]);
 
   return (
     <Layout>

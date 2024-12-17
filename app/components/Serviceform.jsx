@@ -35,7 +35,8 @@ const [superAdmin, setSuperAdmin] = useState(null);
           setSuperAdmin(JSON.parse(superAdminData));
         }
       }
-    }, []);console.log("super admin",superAdmin)
+    }, [superAdmin]);
+    console.log("super admin",superAdmin)
   const handleSubmit = async (e) => {
     e.preventDefault();
   

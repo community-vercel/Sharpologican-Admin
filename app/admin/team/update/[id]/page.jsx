@@ -26,7 +26,7 @@ const EditTeam = () => {
 
   useEffect(() => {
     if (!id) return;
-
+    if(superAdmin){
     const fetchteam = async () => {
       const formData = new FormData();
     formData.append('id',id);
@@ -44,7 +44,8 @@ const EditTeam = () => {
     };
 
     fetchteam();
-  }, [id]);
+  }
+  }, [id,superAdmin]);
 
   return (
     <Layout>
