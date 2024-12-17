@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FaTachometerAlt, FaUsers, FaChartBar, FaCog, FaFileContract, FaNewspaper, FaTag, FaTeamspeak, FaPortrait, FaAddressBook, FaServicestack, FaQuoteLeft, FaSortNumericUp, FaCommentMedical } from "react-icons/fa";
+import { FaTachometerAlt, FaUsers, FaChartBar, FaCog, FaFileContract, FaNewspaper, FaTag, FaTeamspeak, FaPortrait, FaAddressBook, FaServicestack, FaQuoteLeft, FaSortNumericUp, FaCommentMedical, FaHome } from "react-icons/fa";
 
 const Sidebar = () => {
   return (
@@ -82,6 +82,13 @@ Counts
           <Link href="/admin/contactus" className="flex items-center">
               <FaCommentMedical className="mr-3" />
 Contact Us
+          
+          </Link>
+        </li>
+        <li className="mb-4">
+          <Link href="/admin/home" className="flex items-center">
+              <FaHome className="mr-3" />
+Settings
           
           </Link>
         </li>
