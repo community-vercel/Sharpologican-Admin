@@ -12,6 +12,8 @@ const EditService = () => {
   console.log("id ",id)
   const [superAdmin, setSuperAdmin] = useState(null);
 
+
+  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const superAdminData = localStorage.getItem("superAdmin");
@@ -19,26 +21,12 @@ const EditService = () => {
         setSuperAdmin(JSON.parse(superAdminData)); // Set state once with parsed value
       }
     }
-  }, [])  
-  const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
-  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const superAdminData = localStorage.getItem("superAdmin");
-      if (superAdminData) {
-        console.log("Fetched superAdmin from localStorage:", superAdminData);
-        setSuperAdmin(JSON.parse(superAdminData));
-      }
-    }
   }, []); // Empty dependency array ensures it runs only once
 
-  // Fetch service data based on `id` and `superAdmin`
+  // Fetch service data based on `superAdmin` and `id`
   useEffect(() => {
-    if (!id || !superAdmin) return;  // Wait until both `id` and `superAdmin` are available
-    if (service) return;  // Avoid re-fetching if the service is already set
-
-    console.log("Fetching service data for id:", id, "superAdmin:", superAdmin);
+    // Ensure both `superAdmin` and `id` are available before making the fetch request
+    if (!id || !superAdmin) return;
 
     const fetchService = async () => {
       const formData = new FormData();
@@ -48,13 +36,12 @@ const EditService = () => {
         const response = await fetch(`${serverurls}get-service/`, {
           method: 'POST',
           headers: {
-            'x-super-admin': JSON.stringify(superAdmin),
+            'x-super-admin': JSON.stringify(superAdmin),  // Send super admin info in headers
           },
           body: formData,
         });
 
         const data = await response.json();
-        console.log("Fetched service data:", data);
         setService(data.data);  // Set service data state
       } catch (error) {
         console.error("Error fetching service:", error);
@@ -62,7 +49,8 @@ const EditService = () => {
     };
 
     fetchService();
-  }, [id,superAdmin,service]);
+  }, [id, superAdmin]); // This effect depends on both `id` and `superAdmin`
+
 
   return (
     <Layout>

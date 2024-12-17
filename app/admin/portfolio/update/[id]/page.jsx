@@ -13,17 +13,17 @@ const Editportfolio = () => {
   console.log("id ",id)
 const [superAdmin, setSuperAdmin] = useState(null);
 
+ 
+
+  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      // Now it's safe to use localStorage in the browser
       const superAdminData = localStorage.getItem("superAdmin");
       if (superAdminData) {
-        setSuperAdmin(JSON.parse(superAdminData));
+        setSuperAdmin(JSON.parse(superAdminData)); // Set state once with parsed value
       }
     }
-  }, []); 
-  const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
-  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
+  }, []); // Empty dependency array ensures it runs only once
 
   useEffect(() => {
     if (!id || !superAdmin) return; // Ensure both are set before making the fetch request

@@ -5,14 +5,14 @@ import Layout from '@/app/components/Layout';
 import ServiceForm from '@/app/components/Serviceform';
 import NewsForm from '@/app/components/Newsform';
 
-Layout
 const EditService = () => {
   const [news, setnews] = useState(null);
   const params=useParams()
   const id  = params.id;
-  console.log("id ",id)
     const [superAdmin, setSuperAdmin] = useState(null);
-  
+    const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
+  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
+
     useEffect(() => {
       if (typeof window !== 'undefined') {
         // Now it's safe to use localStorage in the browser
@@ -22,11 +22,9 @@ const EditService = () => {
         }
       }
     }, []);
-    const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
-    const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
-  
+
   useEffect(() => {
-    if (!id || !superAdmin) return; // Ensure both are set before making the fetch request
+    if (!id) return;
 
     const fetchdata = async () => {
       const formData = new FormData();
@@ -45,8 +43,7 @@ const EditService = () => {
     };
 
     fetchdata();
- 
-  }, [id,superAdmin]);
+  }, [id]);
 
   return (
     <Layout>
