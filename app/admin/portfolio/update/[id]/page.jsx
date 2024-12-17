@@ -26,7 +26,7 @@ const [superAdmin, setSuperAdmin] = useState(null);
   const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
 
   useEffect(() => {
-    if (!id) return;
+    if (!id || !superAdmin) return; // Ensure both are set before making the fetch request
 
     const fetchService = async () => {
       const formData = new FormData();
@@ -45,7 +45,7 @@ const [superAdmin, setSuperAdmin] = useState(null);
     };
 
     fetchService();
-  }, [id]);
+  }, [id,superAdmin]);
 
   return (
     <Layout>

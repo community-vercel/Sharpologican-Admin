@@ -26,7 +26,7 @@ const EditService = () => {
     const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
   
   useEffect(() => {
-    if (!id) return;
+    if (!id || !superAdmin) return; // Ensure both are set before making the fetch request
 
     const fetchdata = async () => {
       const formData = new FormData();
@@ -45,7 +45,8 @@ const EditService = () => {
     };
 
     fetchdata();
-  }, [id]);
+ 
+  }, [id,superAdmin]);
 
   return (
     <Layout>

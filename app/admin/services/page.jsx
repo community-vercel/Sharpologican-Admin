@@ -7,13 +7,13 @@ import { toast } from 'react-toastify';
 const Services = () => {
   const [services, setServices] = useState([]);
   const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
-  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS
+  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
   const [superAdmin, setSuperAdmin] = useState(null);
 
 
   useEffect(() => {
     const fetchServices = async () => {
-      const response = await fetch(`${serverurls}services/  `);
+      const response = await fetch(`${serverurls}services/`);
       const data = await response.json();
       setServices(data.data);
     };

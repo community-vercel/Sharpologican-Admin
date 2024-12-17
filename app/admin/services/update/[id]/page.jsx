@@ -17,34 +17,42 @@ const EditService = () => {
       // Now it's safe to use localStorage in the browser
       const superAdminData = localStorage.getItem("superAdmin");
       if (superAdminData) {
-        setSuperAdmin(JSON.parse(superAdminData));
-      }
+        if (typeof window !== 'undefined') {
+          // Now it's safe to use localStorage in the browser
+          const superAdminData = localStorage.getItem("superAdmin");
+          if (superAdminData) {
+            setSuperAdmin(JSON.parse(superAdminData));
+          }
+        }      }
     }
   }, []);  
   const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
   const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
 
   useEffect(() => {
-    if (!id) return;
+    if (!id || !superAdmin) return; // Ensure both are set before making the fetch request
 
-    const fetchService = async () => {
-      const formData = new FormData();
-    formData.append('id',id);
-    const response = await fetch(`${serverurl}get-service/`, {
-    method: 'POST',
-    headers: {
-    
-      'x-super-admin': JSON.stringify(superAdmin),  // Send super admin info in headers
-    },
-    body:formData
-  });
+  const fetchService = async () => {
+    const formData = new FormData();
+  formData.append('id',id);
+  const response = await fetch(`${serverurls}get-service/`, {
+  method: 'POST',
+  headers: {
+  
+    'x-super-admin': JSON.stringify(superAdmin),  // Send super admin info in headers
+  },
+  body:formData
+});
 
-      const data = await response.json();
-      setService(data.data);
-    };
+    const data = await response.json();
+    setService(data.data);
+  };
+  
+  fetchService();
 
-    fetchService();
-  }, [id]);
+   
+
+  }, [id,superAdmin]);
 
   return (
     <Layout>
