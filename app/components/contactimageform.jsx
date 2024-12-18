@@ -66,7 +66,7 @@ const ImageUploadForm = () => {
         console.log(image.client_id)
 
         const clientId = image.client_id;
-        const response = await fetch(`${serverurls}/delete-image/${clientId}/`, {
+        const response = await fetch(`${serverurls}delete-image/${clientId}/`, {
           method: "DELETE",
         });
   
@@ -234,7 +234,7 @@ const ImageUploadForm = () => {
               <img
                 src={
                   typeof image.image === "string" && image.image.includes("media")
-                    ? serverurl + image.image.replace("/media/", "media/")
+                    ? serverurl + image.image
                     : image instanceof File
                     ? URL.createObjectURL(image)
                     : null

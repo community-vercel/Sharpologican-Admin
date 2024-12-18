@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 
 
 const ProfessionalPage = () => {
-  const [keywords, setKeywords] = useState();
+  const [keywords, setKeywords] = useState([]);
   const [keywordInput, setKeywordInput] = useState("");
   const [keywords3, setKeyword3] = useState([]);
   const [keywordInput3, setKeywordInput3] = useState("");
