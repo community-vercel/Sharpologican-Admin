@@ -1,7 +1,9 @@
 'use client';
 import { useState,useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';  // Don't forget to import the CSS!
+
 const ServiceForm = ({ initialData = {} }) => {
     const router = useRouter();
 
@@ -94,11 +96,11 @@ const [superAdmin, setSuperAdmin] = useState(null);
         const data = await response.json();
         console.log(data.status)
             if (data.status==='success') {
-              console
+              toast.success("Added successgully")
+
               router.push('/admin/services')
       
-              toast.success("Added successgully")
-      
+
             } else {
       
               // Handle failure
@@ -137,6 +139,7 @@ const [superAdmin, setSuperAdmin] = useState(null);
   };
 
   return (
+    <>
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
         <label htmlFor="title" className="block">Title</label>
@@ -210,6 +213,19 @@ const [superAdmin, setSuperAdmin] = useState(null);
 
       <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Save</button>
     </form>
+    <ToastContainer 
+position="top-right" 
+autoClose={5000} 
+hideProgressBar={false} 
+newestOnTop={true} 
+closeOnClick 
+rtl={false} 
+pauseOnFocusLoss 
+draggable 
+pauseOnHover 
+/>      </>
+
+
   );
 };
 

@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 const NewsForm = ({teamMember }) => {
 
@@ -94,7 +94,6 @@ if(teamMember && teamMember.id){
   
 if (response.ok) {
   toast.success("Data saved successfully!");
-  alert('Data saved successfully!');;
   router.push('/admin/news')
 } else {
   alert('Something went wrong!');
@@ -114,7 +113,7 @@ const response = await fetch(`${serverurls}add-news/`, {
 
 if (response.ok) {
   toast.success("Data saved successfully!");
-  alert('Data saved successfully!');;
+  // alert('Data saved successfully!');;
   router.push('/admin/news')
 } else {
   alert('Something went wrong!');
@@ -123,6 +122,7 @@ if (response.ok) {
 
 
   return (
+    <>
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
         <label htmlFor="name" className="block">Content</label>
@@ -207,6 +207,9 @@ if (response.ok) {
         {teamMember && teamMember.id ? 'Update' : 'Add'} News
       </button>
     </form>
+    <ToastContainer />
+
+    </>
   );
 };
 

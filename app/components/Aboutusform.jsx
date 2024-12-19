@@ -1,6 +1,6 @@
 'use client';
 import { useState,useEffect } from 'react';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 
 const AboutUsForm = ({ initialData = {} }) => {
@@ -70,6 +70,7 @@ const AboutUsForm = ({ initialData = {} }) => {
   };
 
   return (
+    <>
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
         <label htmlFor="heading" className="block">Heading</label>
@@ -150,6 +151,10 @@ const AboutUsForm = ({ initialData = {} }) => {
       ):''}
       <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Save</button>
     </form>
+    <ToastContainer />
+
+</>
+
   );
 };
 

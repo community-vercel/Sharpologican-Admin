@@ -1,6 +1,6 @@
 'use client';
 import { useState,useEffect } from 'react';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 
 const CountForm = ({ initialData = {} }) => {
@@ -86,6 +86,7 @@ const CountForm = ({ initialData = {} }) => {
   };
 
   return (
+    <>
     <form onSubmit={handleSubmit} className="space-y-4">
    <div>
         <label htmlFor="firstTitle" className="block"> Title</label>
@@ -126,6 +127,10 @@ const CountForm = ({ initialData = {} }) => {
  
       <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">{initialData && initialData?"Update":'Save'}</button>
     </form>
+    
+        <ToastContainer />
+</>
+
   );
 };
 

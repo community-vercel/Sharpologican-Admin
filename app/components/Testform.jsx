@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 const TestimonialForm = ({ onSubmit, isEditing, testimonial }) => {
   const router=useRouter()
@@ -90,6 +90,7 @@ if (response.ok) {
   };
 
   return (
+    <>
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
         <label htmlFor="name" className="block">Name</label>
@@ -133,6 +134,9 @@ if (response.ok) {
         {testimonial && testimonial.id ? 'Update' : 'Add'} Testimonial
       </button>
     </form>
+        <ToastContainer />
+        </>
+
   );
 };
 

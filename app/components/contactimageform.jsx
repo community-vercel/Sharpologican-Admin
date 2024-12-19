@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { useRouter } from "next/navigation";
 
 const ImageUploadForm = () => {
@@ -256,6 +256,7 @@ const ImageUploadForm = () => {
         </div>
       </div>
     )}
+    <ToastContainer />
 
 </>
   );
