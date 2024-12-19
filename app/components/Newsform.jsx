@@ -8,6 +8,8 @@ const NewsForm = ({teamMember }) => {
   const [name, setName] = useState('');
   const [title, setTitle] = useState('');
   const [image, setImage] = useState(null);
+  const [image2, setImage2] = useState(null);
+
   const [description, setdescription] = useState('');
   const [des, setdes] = useState('');
     const [newsData, setnewsData] = useState();
@@ -55,6 +57,13 @@ const NewsForm = ({teamMember }) => {
     }
   };
 
+
+  const handleImageChange2 = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage2(file);
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -65,6 +74,9 @@ const NewsForm = ({teamMember }) => {
    
     if (image) {
         formData.append('image', image); // Appending the image file
+      }
+      if (image2) {
+        formData.append('image2', image2); // Appending the image file
       }
     
     // Handle form submission logic here, e.g., API request
@@ -175,6 +187,21 @@ if (response.ok) {
 
 {!image && teamMember && teamMember.image?(
   <img src={serverurl+teamMember.image} alt="" />
+):''}
+
+<div>
+        <label htmlFor="image" className="block">Ground Image</label>
+        <input
+          id="image2"
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange2}
+          className="w-full p-2 border rounded"
+        />
+      </div>
+
+{!image2 && teamMember && teamMember.image2?(
+  <img src={serverurl+teamMember.image2} alt="" />
 ):''}
       <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
         {teamMember && teamMember.id ? 'Update' : 'Add'} News

@@ -6,6 +6,8 @@ import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 const AddServiceDetails = () => {
   const [title, setTitle] = useState("");
+  const [moretitle, setmoreTitle] = useState("");
+
   const [description, setDescription] = useState("");
   const [detailedDescription, setDetailedDescription] = useState("");
   const [image1, setImage1] = useState(null);
@@ -44,7 +46,7 @@ const AddServiceDetails = () => {
           setTextField2(data.detail2);
           setImage1(serverurl + data.image1.replace("/media/", "media/"));
           setImage2(serverurl + data.image2.replace("/media/", "media/"));
-          
+          setmoreTitle(data.moretitle)
           setMetaTitle(data.metaname);
           setMetaDescription(data.metaname);
 
@@ -82,6 +84,8 @@ const AddServiceDetails = () => {
     formData.append("image1", image1);
     formData.append("image2", image2);
     formData.append("detail", textField1);
+    formData.append("moretitle", moretitle  );
+
     formData.append("detail2", textField2);
     formData.append("metaname", metaTitle);
 
@@ -149,6 +153,19 @@ const AddServiceDetails = () => {
               
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              required
+              className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Sub Title:
+            </label>
+            <input
+              type="text"
+              
+              value={moretitle}
+              onChange={(e) => setmoreTitle(e.target.value)}
               required
               className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
             />

@@ -6,7 +6,8 @@ import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 const AddportfolioDetails = () => {
   const [title, setTitle] = useState("");
-  
+  const [author, setauthor] = useState("");
+
   const [textField1, setTextField1] = useState("");
   const [keywords, setKeywords] = useState([]);
   const [keywordInput, setKeywordInput] = useState("");
@@ -45,7 +46,7 @@ const AddportfolioDetails = () => {
         if (response.ok) {
           setServices(data);
           setTitle(params.slug);
-         
+         setauthor(data.author)
 
           setTextField1(data.detail);
           setMetaTitle(data.metaname);
@@ -76,6 +77,7 @@ const AddportfolioDetails = () => {
 
     const formData = new FormData();
     formData.append("slug", params.slug);
+    formData.append("author", author);
 
     formData.append("metaname", metaTitle);
 
@@ -146,6 +148,18 @@ const AddportfolioDetails = () => {
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              required
+              className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+            />
+         </div>
+         <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Author:
+            </label>
+            <input
+              type="text"
+              value={author}
+              onChange={(e) => setauthor(e.target.value)}
               required
               className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
             />

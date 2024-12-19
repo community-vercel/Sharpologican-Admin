@@ -11,8 +11,9 @@ const PortfolioForm = ({ onSubmit, portfolioItem }) => {
   const [buttonText, setButtonText] = useState(portfolioItem?.buttonText || '');
   const[description,setdescription]=useState(portfolioItem?.description || '')
   const[des,setdes]=useState(portfolioItem?.des || portfolioItem[0]?.description)
-
   const [image, setImage] = useState(null);
+
+  const [image2, setImage2] = useState(null);
   const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
   const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
 
@@ -26,10 +27,17 @@ const [superAdmin, setSuperAdmin] = useState(null);
           setSuperAdmin(JSON.parse(superAdminData));
         }
       }
-    }, []);  const handleImageChange = (e) => {
+    }, []);  
+    const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setImage(file);
+    }
+  };
+  const handleImageChange2 = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage2(file);
     }
   };
 
@@ -45,6 +53,9 @@ const [superAdmin, setSuperAdmin] = useState(null);
 
     if (image) {
       formData.append('image', image); // Appending the image file
+    }
+    if (image2) {
+      formData.append('image2', image2); // Appending the image file
     }
     if(portfolioItem && portfolioItem.id){
       formData.append('id',portfolioItem.id);
@@ -172,6 +183,19 @@ const [superAdmin, setSuperAdmin] = useState(null);
       </div>
 {!image && portfolioItem?.image?(
   <img src={serverurl+portfolioItem.image} alt="" />
+):''}
+     <div>
+        <label htmlFor="image" className="block">Ground Image</label>
+        <input
+          id="image2"
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange2}
+          className="w-full p-2 border rounded"
+        />
+      </div>
+{!image2 && portfolioItem?.image2?(
+  <img src={serverurl+portfolioItem.image2} alt="" />
 ):''}
       {/* {image && <img src={URL.createObjectURL(image)} alt="Image Preview" className="mt-4 w-32 h-32 object-cover rounded" />} */}
 
