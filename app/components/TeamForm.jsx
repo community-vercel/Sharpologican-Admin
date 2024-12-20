@@ -10,11 +10,14 @@ const router=useRouter()
   const [image, setImage] = useState(null);
   const [description, setdescription] = useState('');
   const [des, setdes] = useState('');
+  const [index, setindex] = useState();
 
   useEffect(() => {
     if (teamMember) {
       setName(teamMember.name);
       setTitle(teamMember.title);
+      setindex(teamMember.index);
+
       setdescription(teamMember.description ||  teamMember[0]?.description || '' );
       setdes(teamMember?.des || teamMember[0]?.description  || '')
     }
@@ -48,6 +51,7 @@ const [superAdmin, setSuperAdmin] = useState(null);
     formData.append('name',name);
     formData.append('title', title);
     formData.append('description',description);
+    formData.append('index',index);
 
 
     if (image) {
@@ -117,6 +121,17 @@ if (response.ok) {
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          className="w-full p-2 border rounded"
+          required
+        />
+      </div>
+      <div>
+        <label htmlFor="title" className="block">Index (Priority)</label>
+        <input
+          id="index"
+          type="number"
+          value={index}
+          onChange={(e) => setindex(e.target.value)}
           className="w-full p-2 border rounded"
           required
         />

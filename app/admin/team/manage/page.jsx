@@ -3,7 +3,7 @@ import TeamForm from '@/app/components/TeamForm';
 import Link from 'next/link';
 import React, { useState,useEffect } from 'react';
 import { toast } from 'react-toastify';
-TeamForm
+
 const TeamManage = () => {
   const [teamData, setTeamData] = useState();
   const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
