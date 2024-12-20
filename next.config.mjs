@@ -2,7 +2,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 
-    basePath: '/old',
+    basePath: '/admin',
 
 
    images: {
