@@ -32,6 +32,18 @@ const RequestDetails = () => {
         <span className="text-gray-800 text-lg">{request.first_name} {request.last_name}</span>
       </div>
       <div className="flex items-center justify-between">
+        <span className="font-semibold text-gray-700 text-lg w-1/3">Code Area</span>
+        <span className="text-gray-800 text-lg">{request.area_code} </span>
+      </div>
+      <div className="flex items-center justify-between">
+        <span className="font-semibold text-gray-700 text-lg w-1/3">Phone </span>
+        <span className="text-gray-800 text-lg">{request.phone_number} </span>
+      </div>
+      <div className="flex items-center justify-between">
+        <span className="font-semibold text-gray-700 text-lg w-1/3">Company Name</span>
+        <span className="text-gray-800 text-lg">{request.company_name} </span>
+      </div>
+      <div className="flex items-center justify-between">
         <span className="font-semibold text-gray-700 text-lg w-1/3">Email:</span>
         <span className="text-gray-800 text-lg">{request.email}</span>
       </div>
