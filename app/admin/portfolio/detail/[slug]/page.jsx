@@ -43,7 +43,7 @@ const AddportfolioDetails = () => {
         const data = await response.json();
         if (response.ok) {
           setServices(data);
-          setTitle(params.slug);
+          setTitle(data.title);
           setheading(data.heading);
           setranch(data.branch);
           setType(data.types);
@@ -82,6 +82,9 @@ const AddportfolioDetails = () => {
 
     const formData = new FormData();
     formData.append("slug", params.slug);
+    formData.append("title", title
+        
+    );
 
     formData.append("heading", heading);
     formData.append("branch", aranch);
