@@ -84,7 +84,7 @@ const AddServiceDetails = () => {
     formData.append("image1", image1);
     formData.append("image2", image2);
     formData.append("detail", textField1);
-    formData.append("moretitle", moretitle  );
+    formData.append("moretitle", moretitle);
 
     formData.append("detail2", textField2);
     formData.append("metaname", metaTitle);

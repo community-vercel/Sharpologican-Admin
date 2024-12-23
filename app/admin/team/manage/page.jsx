@@ -1,5 +1,6 @@
 'use client';
 import TeamForm from '@/app/components/TeamForm';
+import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState,useEffect } from 'react';
 import { toast } from 'react-toastify';
@@ -103,11 +104,18 @@ const TeamManage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
           {teamData?.map((item, index) => (
             <div key={index} className="border p-4 rounded">
-              <img
-                src={serverurl+item.image}
-                alt={item.name}
-                className="w-full h-40 object-cover rounded mb-4"
-              />
+            
+        <Image
+     src={serverurl+item.image}
+     alt={item.name}
+        width={164}  // Corresponds to w-16 (16 * 4px)
+        height={164} // Corresponds to h-16 (16 * 4px)
+        // priority={true}
+        loading="lazy"
+  quality={55} // Optional: redu
+        // Optional: Prioritize this image for loading
+      />
+
               <h4 className="text-xl font-bold">{item.name}</h4>
               <h5 className="text-lg">{item.title}</h5>
               <div className="mt-4">

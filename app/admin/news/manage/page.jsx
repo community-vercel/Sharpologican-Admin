@@ -1,5 +1,6 @@
 'use client';
 import NewsForm from '@/app/components/Newsform';
+import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState,useEffect } from 'react';
 import { toast } from 'react-toastify';
@@ -86,10 +87,14 @@ const NewsMangage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
           {newsData?.map((item, index) => (
             <div key={index} className="border p-4 rounded">
-              <img
-                src={serverurl+item.image}
-                alt={item.name}
-                className="w-full h-40 object-cover rounded mb-4"
+              <Image
+              width={166}
+              height={166}
+              loading="lazy"
+              quality={55} 
+              src={serverurl+item.image}
+              alt={item.name}
+              className="w-full h-40 object-cover rounded mb-4"
               />
               <h4 className="text-xl font-bold">{item.name}</h4>
               <h5 className="text-lg">{item.title}</h5>

@@ -3,6 +3,7 @@ import React, { useState,useEffect } from 'react';
 import PortfolioForm from '@/app/components/portfolioform';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
+import Image from 'next/image';
 const PortfolioManage = () => {
 
   const [portfolioData, setPortfolioData] = useState();
@@ -81,7 +82,17 @@ const PortfolioManage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
           {portfolioData?.map((item, index) => (
             <div key={index} className="border p-4 rounded">
-              <img src={serverurl+item.image} alt={item.title} className="w-full h-40 object-cover rounded mb-4" />
+                 <Image
+                   src={serverurl+item.image} 
+                   alt={item.title} 
+                      width={164}  // Corresponds to w-16 (16 * 4px)
+                      height={164} // Corresponds to h-16 (16 * 4px)
+                      // priority={true}
+                      loading="lazy"
+                quality={55} // Optional: redu
+                      // Optional: Prioritize this image for loading
+                    />
+              {/* <img src={serverurl+item.image} alt={item.title} className="w-full h-40 object-cover rounded mb-4" /> */}
               <h4 className="text-xl font-bold">{item.title}</h4>
               <h5 className="text-lg">{item.heading}</h5>
               <p>{item.text}</p>

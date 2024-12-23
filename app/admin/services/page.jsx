@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
 import { toast } from 'react-toastify';
+import Image from 'next/image';
 
 const Services = () => {
   const [services, setServices] = useState([]);
@@ -25,7 +26,7 @@ const Services = () => {
       }
     }
     fetchServices();
-  }, []);
+  }, [services]);
 
   const handleDelete = async (id) => {
     const formData = new FormData();
@@ -72,11 +73,21 @@ const Services = () => {
               <td className="py-4 px-6">{service.description}</td>
               <td className="py-4 px-6">
                 {service.image ? (
-                  <img
-                  src={serverurl + service.image.replace('/media/media/', '/media/')}
-                  alt={service.title}
-                    className="w-16 h-16 object-cover rounded-md shadow-sm"
-                  />
+                  // <img
+                  // src={serverurl + service.image.replace('/media/media/', '/media/')}
+                  // alt={service.title}
+                  //   className="w-16 h-16 object-cover rounded-md shadow-sm"
+                  // />
+                  <Image
+        src={serverurl + service.image.replace('/media/media/', '/media/')}
+        alt={service.title}
+        width={64}  // Corresponds to w-16 (16 * 4px)
+        height={64} // Corresponds to h-16 (16 * 4px)
+        // priority={true}
+        loading="lazy"
+  quality={75} // Optional: redu
+        // Optional: Prioritize this image for loading
+      />
                 ) : (
                   <span className="text-gray-500">No Image</span>
                 )}
