@@ -30,7 +30,9 @@ useEffect(() => {
     location: '',
     category: '',
     description: '',
-    heading: "",
+    apply_link: 'https://sharplogicians.com/career',
+    deadline:Date.now().toString,
+
  
   });
 
@@ -176,12 +178,26 @@ useEffect(() => {
         ></textarea>
       </div>
       <div className="space-y-2">
+        <label htmlFor="description" className="block text-sm font-medium">Deadline</label>
+        <input
+        type='date'
+          name="deadline"
+          id="description"
+          value={formData.deadline}
+          onChange={handleChange}
+          rows="4"
+          ty
+          className="w-full p-3 border border-gray-300 rounded-lg"
+          required
+        ></input>
+      </div>
+      <div className="space-y-2">
         <label htmlFor="apply_link" className="block text-sm font-medium">Apply email</label>
         <input
           type="url"
           name="apply_link"
           id="apply_link"
-          value={formData.apply_link}
+          value={formData.apply_link?formData.apply_link:'https://sharplogicians.com/career'}
           onChange={handleChange}
           className="w-full p-3 border border-gray-300 rounded-lg"
           required
