@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FaTachometerAlt, FaUsers, FaChartBar, FaCog, FaFileContract, FaNewspaper, FaTag, FaTeamspeak, FaPortrait, FaAddressBook, FaServicestack, FaQuoteLeft, FaSortNumericUp, FaCommentMedical, FaHome } from "react-icons/fa";
+import { FaTachometerAlt, FaUsers, FaChartBar, FaCog, FaFileContract, FaNewspaper, FaTag, FaTeamspeak, FaPortrait, FaAddressBook, FaServicestack, FaQuoteLeft, FaSortNumericUp, FaCommentMedical, FaHome, FaCaretSquareRight, FaNetworkWired } from "react-icons/fa";
 
 const Sidebar = () => {
   return (
@@ -89,6 +89,34 @@ Contact Us
           <Link href="/admin/home" className="flex items-center">
               <FaHome className="mr-3" />
 Settings
+          
+          </Link>
+        </li>
+        <li className="mb-4">
+          <Link href="/admin/carrer" className="flex items-center">
+              <FaNetworkWired className="mr-3" />
+Career
+          
+          </Link>
+        </li>
+        <li className="mb-4">
+          <Link href="/admin/get" className="flex items-center">
+              <FaAddressBook className="mr-3" />
+Extra 
+          
+          </Link>
+        </li>
+        <li className="mb-4">
+          <Link href="/admin/data" className="flex items-center">
+              <FaCaretSquareRight className="mr-3" />
+View Career Data
+          
+          </Link>
+        </li>
+        <li className="mb-4">
+          <Link href="/admin/application" className="flex items-center">
+              <FaAddressBook className="mr-3" />
+Applications
           
           </Link>
         </li>
