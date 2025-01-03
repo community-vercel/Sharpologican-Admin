@@ -235,9 +235,9 @@ const AddportfolioDetails = () => {
                 height: 300,
                 menubar: false,
                 plugins: [
-                  'a11ychecker','advlist','advcode','advtable','autolink','checklist','markdown',
+                  'advlist', 'autolink',
                   'lists','link','image','charmap','preview','anchor','searchreplace','visualblocks',
-                  'powerpaste','fullscreen','formatpainter','insertdatetime','media','table','help','wordcount'
+               'fullscreen','insertdatetime','media','table','help','wordcount'
                ],
                toolbar: 'undo redo | casechange blocks | bold italic backcolor image | ' +
                   'alignleft aligncenter alignright alignjustify | ' +
