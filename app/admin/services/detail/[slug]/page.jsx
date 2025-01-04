@@ -44,8 +44,8 @@ const AddServiceDetails = () => {
           setTitle(data.service_title);
           setTextField1(data.detail);
           setTextField2(data.detail2);
-          setImage1(serverurl + data.image1.replace("/media/", "media/"));
-          setImage2(serverurl + data.image2.replace("/media/", "media/"));
+          setImage1(serverurl + data.image1.replace("/media/", "/media/"));
+          setImage2(serverurl + data.image2.replace("/media/", "/media/"));
           setmoreTitle(data.moretitle)
           setMetaTitle(data.metaname);
           setMetaDescription(data.metaname);

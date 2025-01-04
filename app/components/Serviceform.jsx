@@ -12,10 +12,23 @@ const ServiceForm = ({ initialData = {} }) => {
   const [detailedDescription, setDetailedDescription] = useState(initialData.detailedDescription || '');
   const [image, setImage] = useState(null);
   const [image2, setImage2] = useState(null);
-
+  const [keywords, setKeywords] = useState([]);
+  const [keywordInput, setKeywordInput] = useState("");
   const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
   const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
+  const handleKeywordKeyPress = (e) => {
+    if (e.key === "Enter" && keywordInput.trim()) {
+      e.preventDefault();
+      if (!keywords.includes(keywordInput.trim())) {
+        setKeywords([...keywords, keywordInput.trim()]);
+      }
+      setKeywordInput("");
+    }
+  };
 
+  const removeKeyword = (index) => {
+    setKeywords(keywords.filter((_, i) => i !== index));
+  };
   const handleImageChange = (e) => {
     const file = e.target.files[0]; // Get the first file from the input
     if (file) {
@@ -138,6 +151,78 @@ const [superAdmin, setSuperAdmin] = useState(null);
     }
   };
 
+
+  const [metadata, setMetadata] = useState({
+    meta_title: "",
+    meta_description: "",
+    meta_keywords: '',
+  });
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
+
+  // Fetch metadata on component mount
+  useEffect(() => {
+    const fetchMetadata = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`${serverurls}service-metadata/`);
+        if (response.ok) {
+          const data = await response.json();
+          setMetadata(data);
+          setKeywords(data.meta_keywords.split(","));
+        } else {
+          setMessage("No metadata found");
+        }
+      } catch (error) {
+        setMessage("Failed to fetch metadata");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchMetadata();
+  }, []);
+
+  // Handle form submission
+  const handleSubmit2 = async (e) => {
+    e.preventDefault();
+    const data = JSON.stringify({
+      ...metadata,
+      meta_keywords:keywords.join(",") // Convert array to string
+    });
+    // {..metadata,keywords.join(",")}
+    // metadata.append("meta_keywords", keywords.join(","));
+    try {
+      setLoading(true);
+      const response = await fetch(`${serverurls}post-metadata/`, {
+        method: "POST",
+        headers: {
+          'x-super-admin': JSON.stringify(superAdmin),  // Send super admin info in headers
+        },
+        
+        body: data,
+      });
+      if (response.ok) {
+        const result = await response.json();
+        setMessage(result.message);
+      } else {
+        setMessage("Failed to update metadata");
+      }
+    } catch (error) {
+      setMessage("An error occurred");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handle input changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setMetadata({ ...metadata, [name]: value });
+  };
+
+  
+
   return (
     <>
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -211,8 +296,103 @@ const [superAdmin, setSuperAdmin] = useState(null);
      </div>
      
 
-      <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Save</button>
+      <button type="submit"               className="w-full bg-blue-500 text-white font-semibold py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
+      >Save</button>
     </form>
+
+                {/* End Service Area */}
+                <div className="max-w-full min-h-screen bg-gray-100 p-8">
+      <div className="max-w-full mx-auto bg-white shadow-md rounded-lg p-6">
+        <h3 className="text-2xl font-bold mb-4 text-gray-800">
+          Manage Service Metadata(Dont add for everyservice its for main service page)
+        </h3>
+        {message && (
+          <div className="mb-4 p-2 bg-blue-100 text-blue-800 rounded">
+            {message}
+          </div>
+        )}
+        {loading ? (
+          <p className="text-gray-600">Loading...</p>
+        ) : (
+          <form onSubmit={handleSubmit2}>
+            <div className="mb-4">
+              <label
+                htmlFor="meta_title"
+                className="block text-gray-700 font-medium mb-1"
+              >
+                Meta Title
+              </label>
+              <input
+                type="text"
+                id="meta_title"
+                name="meta_title"
+                value={metadata.meta_title}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded px-3 py-2 focus:ring focus:ring-blue-200"
+                placeholder="Enter meta title"
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="meta_description"
+                className="block text-gray-700 font-medium mb-1"
+              >
+                Meta Description
+              </label>
+              <textarea
+                id="meta_description"
+                name="meta_description"
+                value={metadata.meta_description}
+                onChange={handleChange}
+                rows="4"
+                className="w-full border border-gray-300 rounded px-3 py-2 focus:ring focus:ring-blue-200"
+                placeholder="Enter meta description"
+              ></textarea>
+            </div>
+        
+            <div className=" flex flex-col border border-gray-300 rounded-xl p-3 bg-white shadow-lg max-h-40 overflow-y-auto transition-shadow duration-200 ease-in-out hover:shadow-xl">
+            <label className="block text-sm font-medium text-gray-700">
+              Keywords
+            </label>
+
+            <div className="flex flex-wrap gap-2">
+              {keywords.map((keyword, index) => (
+                <span
+                  key={index}
+                  className="flex items-center bg-blue-100 text-blue-800 px-3 py-1 rounded-full shadow-sm transition-transform transform hover:scale-105"
+                >
+                  {keyword}
+                  <button
+                    type="button"
+                    className="ml-2 text-red-500 hover:text-red-700 transition-colors duration-150"
+                    onClick={() => removeKeyword(index)}
+                  >
+                    &times;
+                  </button>
+                </span>
+              ))}
+            </div>
+
+            <input
+              type="text"
+              value={keywordInput}
+              onChange={(e) => setKeywordInput(e.target.value)}
+              onKeyDown={handleKeywordKeyPress}
+              placeholder="Add a keyword and press Enter"
+              className="w-full mt-2 p-1 outline-none border-t border-gray-200 bg-transparent placeholder-gray-400 text-gray-700"
+            />
+          </div>
+         
+            <button
+              type="submit"
+              className="w-full bg-blue-500 text-white font-semibold py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
+            >
+              Save Metadata
+            </button>
+          </form>
+        )}
+      </div>
+    </div>
     <ToastContainer 
 position="top-right" 
 autoClose={5000} 
