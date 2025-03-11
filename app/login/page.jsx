@@ -66,7 +66,7 @@ export default function Login() {
   const handleLanguageChange = (event) => {
     const selectedLanguage = event.target.value;
     setLanguage(selectedLanguage);
-    localStorage.setItem('language', selectedLanguage); // Save the selected language
+    localStorage.setItem('language',selectedLanguage); // Save the selected language
   };
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100">
@@ -102,7 +102,6 @@ export default function Login() {
         <select value={language} onChange={handleLanguageChange}>
           <option value="en">English</option>
           <option value="de">Germany</option>
-
           <option value="es">Spanish</option>
           <option value="fr">French</option>
           <option value="nl">Netherland(Dutch)</option>
