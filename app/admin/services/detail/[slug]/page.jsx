@@ -46,7 +46,7 @@ const AddServiceDetails = () => {
     if (language) {
       getDetails();
     }
-  }, [language]); // Runs whenever `language` changes
+  }, [language]); 
   
 
     const getDetails = async () => {
@@ -55,7 +55,7 @@ const AddServiceDetails = () => {
       formData.append("slug", params.slug);
 
       try {
-        const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}get-servicedetails/`, {
+        const response =   await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:language==='de'?process.env.NEXT_PUBLIC_DJANGO_URLS_DE:language==='nl'?process.env.NEXT_PUBLIC_DJANGO_URLS_NL:''}get-servicedetails/`, {
           method: "POST",
 
           body: formData,
@@ -78,13 +78,7 @@ const AddServiceDetails = () => {
         console.error("Error adding service:", error);
       }
     };
-    if (typeof window !== 'undefined') {
-      // Now it's safe to use localStorage in the browser
-      const superAdminData = localStorage.getItem("superAdmin");
-      if (superAdminData) {
-        setSuperAdmin(JSON.parse(superAdminData));
-      }
-    }
+    
  
 
   const handleImage1Change = (e) => {
@@ -115,7 +109,7 @@ const AddServiceDetails = () => {
 
     try {
       if (service && service) {
-        const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}update-servicedetails/`, {
+        const response =   await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:language==='de'?process.env.NEXT_PUBLIC_DJANGO_URLS_DE:language==='nl'?process.env.NEXT_PUBLIC_DJANGO_URLS_NL:''}update-servicedetails/`, {
           method: "POST",
           headers: {
             "x-super-admin": JSON.stringify(superAdmin), // Send super admin info in headers
@@ -127,7 +121,7 @@ const AddServiceDetails = () => {
           router.push("/admin/services");
         }
       } else {
-        const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}add-servicedetails/`, {
+        const response =   await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:language==='de'?process.env.NEXT_PUBLIC_DJANGO_URLS_DE:language==='nl'?process.env.NEXT_PUBLIC_DJANGO_URLS_NL:''}add-servicedetails/`, {
           method: "POST",
           headers: {
             "x-super-admin": JSON.stringify(superAdmin), // Send super admin info in headers

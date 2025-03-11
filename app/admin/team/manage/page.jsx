@@ -39,20 +39,14 @@ const TeamManage = () => {
  // Ensure both are set before making the fetch request
     const fetchteamData = async () => {
       try {
-        const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}team/`);
+        const response =   await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:language==='de'?process.env.NEXT_PUBLIC_DJANGO_URLS_DE:language==='nl'?process.env.NEXT_PUBLIC_DJANGO_URLS_NL:''}team/`);
         const data = await response.json();
         setTeamData(data.data);
       } catch (error) {
         console.error("Error fetching About Us data:", error);
       }
     };
-    if (typeof window !== 'undefined') {
-      // Now it's safe to use localStorage in the browser
-      const superAdminData = localStorage.getItem("superAdmin");
-      if (superAdminData) {
-        setSuperAdmin(JSON.parse(superAdminData));
-      }
-    }
+   
   
   // Handle form submit (add or edit team member)
   const handleTeamSubmit = (formData, index) => {
@@ -74,7 +68,7 @@ const TeamManage = () => {
   const handleDelete = async (id) => {
     const formData = new FormData();
     formData.append('id',id);
-    const response = await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}delete-team/`, {
+    const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:language==='de'?process.env.NEXT_PUBLIC_DJANGO_URLS_DE:language==='nl'?process.env.NEXT_PUBLIC_DJANGO_URLS_NL:''}delete-team/`, {
     method: 'POST',
     headers: {
     
@@ -84,7 +78,7 @@ const TeamManage = () => {
   });
 
   const data = await response.json();
-  // const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}/services/${id}`, { method: 'DELETE' });
+  // const response =   await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:language==='de'?process.env.NEXT_PUBLIC_DJANGO_URLS_DE:language==='nl'?process.env.NEXT_PUBLIC_DJANGO_URLS_NL:''}/services/${id}`, { method: 'DELETE' });
     if (response.ok) {
       toast.success("Date deleted Sucessfully")
 
