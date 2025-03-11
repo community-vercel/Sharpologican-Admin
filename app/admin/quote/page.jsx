@@ -38,7 +38,7 @@ const [superAdmin, setSuperAdmin] = useState(null);
     // For example, to implement polling or dynamic refresh:
 
 const getDetails=async ()=>{
-    const res =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}quote-requests/`,{
+    const res =   await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:language==='de'?process.env.NEXT_PUBLIC_DJANGO_URLS_DE:language==='nl'?process.env.NEXT_PUBLIC_DJANGO_URLS_NL:''}quote-requests/`,{
         method: 'POST',
         headers: {
             "x-super-admin": JSON.stringify(superAdmin), // Send super admin info in headers

@@ -101,9 +101,12 @@ export default function Login() {
           <div>
         <select value={language} onChange={handleLanguageChange}>
           <option value="en">English</option>
+          <option value="de">Germany</option>
+
           <option value="es">Spanish</option>
           <option value="fr">French</option>
-          <option value="nl">Dutch</option>
+          <option value="nl">Netherland(Dutch)</option>
+
         </select>
       </div>
 
