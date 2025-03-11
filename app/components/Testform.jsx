@@ -10,8 +10,23 @@ const TestimonialForm = ({ onSubmit, isEditing, testimonial }) => {
   const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
   const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
 
-const [superAdmin, setSuperAdmin] = useState(null);
-  
+  const [language, setLanguage] = useState(); // Default language is English
+  const [superAdmin, setSuperAdmin] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const superAdminData = localStorage.getItem("superAdmin");
+      if (superAdminData) {
+        setSuperAdmin(JSON.parse(superAdminData)); // Set state once with parsed value
+      }
+      const savedLanguage = localStorage.getItem('language');
+
+      if (savedLanguage) {
+        
+        setLanguage(savedLanguage); // Set the language from localStorage
+      }
+    }
+  }, []);
   
       useEffect(() => {
     if ( testimonial) {
@@ -48,7 +63,7 @@ const [superAdmin, setSuperAdmin] = useState(null);
 if(testimonial && testimonial.id){
   formData.append('id', testimonial.id);
 
-  const response = await fetch(`${serverurls}update-test/`, {
+  const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}update-test/`, {
     method: "POST",
     headers: {
   
@@ -69,7 +84,7 @@ if(testimonial && testimonial.id){
 else{
  
 // Send the data to the backend API for saving
-const response = await fetch(`${serverurls}add-testimonial/`, {
+const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}add-testimonial/`, {
   method: "POST",
   headers: {
 

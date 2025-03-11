@@ -17,15 +17,22 @@ const AboutUsForm = ({ initialData = {} }) => {
 
   const [superAdmin, setSuperAdmin] = useState(null);
 
+  const [language, setLanguage] = useState(); // Default language is English
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      // Now it's safe to use localStorage in the browser
       const superAdminData = localStorage.getItem("superAdmin");
       if (superAdminData) {
-        setSuperAdmin(JSON.parse(superAdminData));
+        setSuperAdmin(JSON.parse(superAdminData)); // Set state once with parsed value
+      }
+      const savedLanguage = localStorage.getItem('language');
+
+      if (savedLanguage) {
+        
+        setLanguage(savedLanguage); // Set the language from localStorage
       }
     }
-  }, []);  
+  }, []); 
     const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -50,7 +57,7 @@ const AboutUsForm = ({ initialData = {} }) => {
     
      
     // Send the data to the backend API for saving
-    const response = await fetch(`${serverurls}add-about-us/`, {
+    const response = await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}add-about-us/`, {
       method: "POST",
       headers: {
 

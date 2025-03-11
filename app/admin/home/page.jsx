@@ -28,7 +28,23 @@ const ProfessionalPage = () => {
     footeremail: "",
     footeremail2: "",
   });
-  
+  const [language, setLanguage] = useState(); // Default language is English
+  const [superAdmin, setSuperAdmin] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const superAdminData = localStorage.getItem("superAdmin");
+      if (superAdminData) {
+        setSuperAdmin(JSON.parse(superAdminData)); // Set state once with parsed value
+      }
+      const savedLanguage = localStorage.getItem('language');
+
+      if (savedLanguage) {
+        
+        setLanguage(savedLanguage); // Set the language from localStorage
+      }
+    }
+  }, []);
   const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,11 +53,18 @@ const ProfessionalPage = () => {
       [name]: value,
     });
   };
+  
   useEffect(() => {
+    if (language) {
+      fetchHomeDetail();
+    }
+  }, [language]); // Runs whenever `language` changes
+  
+  
     // Fetch existing home details on page load
     const fetchHomeDetail = async () => {
       try {
-        const response = await fetch(`${serverurls}get-home-detail/`);
+        const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}get-home-detail/`);
         const data=await response.json()
         setHomeDetail(data);
         setKeywords(data?.keywords.split(','));
@@ -54,8 +77,6 @@ const ProfessionalPage = () => {
       }
     };
 
-    fetchHomeDetail();
-  }, []);
 
  
   const handleSubmit = async (e) => {
@@ -68,7 +89,9 @@ const ProfessionalPage = () => {
     };
 
     try {
-      const response = await fetch(`${serverurls}add-home-detail/`, {
+      if ( !superAdmin || !language) return; // Ensure both are set before making the fetch request
+
+      const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}add-home-detail/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

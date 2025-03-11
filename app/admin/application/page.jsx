@@ -8,6 +8,7 @@ export default function Applications() {
   const serverurls = process.env.NEXT_PUBLIC_DJANGO_URLS; // Set your Django API URL
   const [superAdmin, setSuperAdmin] = useState(null);
 
+  const [language, setLanguage] = useState(); // Default language is English
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -15,14 +16,26 @@ export default function Applications() {
       if (superAdminData) {
         setSuperAdmin(JSON.parse(superAdminData)); // Set state once with parsed value
       }
+      const savedLanguage = localStorage.getItem('language');
+
+      if (savedLanguage) {
+        
+        setLanguage(savedLanguage); // Set the language from localStorage
+      }
     }
   }, []);
   useEffect(() => {
+    if (language) {
+      fetchApplications();
+    }
+  }, [language]); // Runs whenever `language` changes
+  
+
     const fetchApplications = async () => {
-        if(!superAdmin) return;
+        if(!superAdmin || !language) return;
 
       try {
-        const response = await fetch(`${serverurls}get-all-applications/`,{
+        const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}get-all-applications/`,{
             method: 'POST',
             headers: {
                 "x-super-admin": JSON.stringify(superAdmin), // Send super admin info in headers
@@ -42,8 +55,7 @@ export default function Applications() {
       }
     };
 
-    fetchApplications();
-  }, [superAdmin]);
+
 
   return (
     

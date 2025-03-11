@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function Login() {
@@ -8,7 +8,22 @@ export default function Login() {
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+ const [language, setLanguage] = useState('en'); // Default language is English
 
+  useEffect(() => {
+    // Check if user data is available in localStorage (this indicates login)
+    const user = localStorage.getItem('superAdmin');
+    const savedLanguage = localStorage.getItem('language');
+
+    if (savedLanguage) {
+      setLanguage(savedLanguage); // Set the language from localStorage
+    }
+
+    if (!user) {
+      // If no user data is found, redirect to the login page
+      router.push('/login');
+    } 
+  }, [router]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -48,7 +63,11 @@ export default function Login() {
       setIsLoading(false);
     }
   };
-
+  const handleLanguageChange = (event) => {
+    const selectedLanguage = event.target.value;
+    setLanguage(selectedLanguage);
+    localStorage.setItem('language', selectedLanguage); // Save the selected language
+  };
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100">
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
@@ -79,6 +98,14 @@ export default function Login() {
               required
             />
           </div>
+          <div>
+        <select value={language} onChange={handleLanguageChange}>
+          <option value="en">English</option>
+          <option value="es">Spanish</option>
+          <option value="fr">French</option>
+          <option value="nl">Dutch</option>
+        </select>
+      </div>
 
           <button
             type="submit"

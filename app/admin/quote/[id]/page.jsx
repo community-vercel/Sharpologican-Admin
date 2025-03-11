@@ -8,16 +8,38 @@ const RequestDetails = () => {
   console.log("id",id)
   const [request, setRequest] = useState(null);
   const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
+const [superAdmin, setSuperAdmin] = useState(null);
+  const [language, setLanguage] = useState(); // Default language is English
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const superAdminData = localStorage.getItem("superAdmin");
+      if (superAdminData) {
+        setSuperAdmin(JSON.parse(superAdminData)); // Set state once with parsed value
+      }
+      const savedLanguage = localStorage.getItem('language');
+
+      if (savedLanguage) {
+        
+        setLanguage(savedLanguage); // Set the language from localStorage
+      }
+    }
+  }, []);
+  useEffect(() => {
+    if (language) {
+      fetchdata();
+    }
+  }, [language]); // Runs whenever `language` changes
+  
+const fetchdata = async () => {
     if (id) {
       // Fetch the request details from an API or database
-      fetch(`${serverurls}quote-requests/${id}`)
+        fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}quote-requests/${id}`)
         .then((response) => response.json())
         .then((data) => setRequest(data))
         .catch((error) => console.error('Error fetching request details:', error));
     }
-  }, [id]);
+  };
 
   if (!request) return <div>Loading...</div>;
 

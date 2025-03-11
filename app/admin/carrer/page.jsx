@@ -6,14 +6,29 @@ export default function JobForm() {
     const [superAdmin, setSuperAdmin] = useState(null);
 
 
-useEffect(() => {
-  if (typeof window !== 'undefined') {
-    const superAdminData = localStorage.getItem("superAdmin");
-    if (superAdminData) {
-      setSuperAdmin(JSON.parse(superAdminData)); // Set state once with parsed value
+  const [language, setLanguage] = useState(); // Default language is English
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const superAdminData = localStorage.getItem("superAdmin");
+      if (superAdminData) {
+        setSuperAdmin(JSON.parse(superAdminData)); // Set state once with parsed value
+      }
+      const savedLanguage = localStorage.getItem('language');
+
+      if (savedLanguage) {
+        
+        setLanguage(savedLanguage); // Set the language from localStorage
+      }
     }
-  }
-}, []);
+  }, []);
+  useEffect(() => {
+    if (language) {
+      getDetails();
+      
+    }
+  }, [language]); // Runs whenever `language` changes
+  
   const [formData2, setFormData2] = useState({
    
     heading: "",
@@ -36,15 +51,14 @@ useEffect(() => {
  
   });
 
-    useEffect(() => {
-      if ( !superAdmin) return;
+      if(!superAdmin && !language) return;
   
   
       // This hook will run on the client side if you want to refetch the data.
       // For example, to implement polling or dynamic refresh:
   
   const getDetails=async ()=>{
-      const res = await fetch(`${serverurls}get-carrers/`,{
+      const res =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}get-carrers/`,{
           method: 'POST',
           headers: {
               "x-super-admin": JSON.stringify(superAdmin), // Send super admin info in headers
@@ -54,8 +68,7 @@ useEffect(() => {
         setFormData2(data.data);
   }
   
-   getDetails()   
-    }, [superAdmin]);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
 
@@ -69,12 +82,13 @@ useEffect(() => {
   };
 
   const handleSubmit3 = async (e) => {
-    if ( !superAdmin) return;
+            if(!superAdmin && !language) return;
+
 
     e.preventDefault();
     setIsSubmitting(true);
 
-    const response = await fetch(`${serverurls}add-metajobs/`, {
+    const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}add-metajobs/`, {
       method: 'POST',
       headers: {
         "x-super-admin": JSON.stringify(superAdmin), // Send super admin info in headers
@@ -93,12 +107,13 @@ useEffect(() => {
   };
 
   const handleSubmit = async (e) => {
-    if ( !superAdmin) return;
+            if(!superAdmin || !language) return;
+
 
     e.preventDefault();
     setIsSubmitting(true);
 
-    const response = await fetch(`${serverurls}add-jobs/`, {
+    const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}add-jobs/`, {
       method: 'POST',
       headers: {
         "x-super-admin": JSON.stringify(superAdmin), // Send super admin info in headers
