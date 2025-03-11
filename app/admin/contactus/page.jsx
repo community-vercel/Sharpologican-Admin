@@ -15,16 +15,37 @@ const AddContactus = () => {
   const params = useParams();
   const router = useRouter();
   const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
-  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
-  const [service, setServices] = useState();
-    const [superAdmin, setSuperAdmin] = useState(null);
+  const [language, setLanguage] = useState(); // Default language is English
+
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const superAdminData = localStorage.getItem("superAdmin");
+      if (superAdminData) {
+        setSuperAdmin(JSON.parse(superAdminData)); // Set state once with parsed value
+      }
+      const savedLanguage = localStorage.getItem('language');
+
+      if (savedLanguage) {
+        
+        setLanguage(savedLanguage); // Set the language from localStorage
+      }
+    }
+  }, []);
+ const [service, setServices] = useState();
+    const [superAdmin, setSuperAdmin] = useState(null);
+    useEffect(() => {
+      if (language) {
+        getDetails();
+      }
+    }, [language]); // Runs whenever `language` changes
+    
+ 
     const getDetails = async () => {
       const formData = new FormData();
 
       try {
-        const response = await fetch(`${serverurls}get-contactus/`);
+        const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}get-contactus/`);
         const data = await response.json();
         if (response.ok) {
          
@@ -39,16 +60,7 @@ const AddContactus = () => {
         console.error("Error adding service:", error);
       }
     };
-    if (typeof window !== 'undefined') {
-      // Now it's safe to use localStorage in the browser
-      const superAdminData = localStorage.getItem("superAdmin");
-      if (superAdminData) {
-        setSuperAdmin(JSON.parse(superAdminData));
-      }
-    }
-    getDetails();
-  }, []);
-
+    
 
 
   const handleSubmit = async (e) => {
@@ -64,7 +76,7 @@ const AddContactus = () => {
 
     try {
      
-        const response = await fetch(`${serverurls}add-contactus/`, {
+        const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}add-contactus/`, {
           method: "POST",
           headers: {
             "x-super-admin": JSON.stringify(superAdmin), // Send super admin info in headers

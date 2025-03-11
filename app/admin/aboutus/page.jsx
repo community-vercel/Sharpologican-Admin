@@ -1,3 +1,4 @@
+
 'use client';
 import { useState, useEffect } from 'react';
 import AboutUsForm from '@/app/components/Aboutusform';
@@ -5,32 +6,69 @@ import Layout from '@/app/components/Layout';
 import { useRouter } from 'next/navigation';
 
 const ManageAboutUs = () => {
+
   const [aboutUsData, setAboutUsData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
-  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
 
-  useEffect(() => {
+  const [language, setLanguage] = useState(); // Default language is English
+
+ 
+
+
+
+
+const [superAdmin, setSuperAdmin] = useState(null);
+
+useEffect(() => {
+  if (typeof window !== "undefined") {
+    console.log("language before setting:", language);
+
+    const superAdminData = localStorage.getItem("superAdmin");
+    if (superAdminData) {
+      setSuperAdmin(JSON.parse(superAdminData)); // Set admin state
+    }
+
+    const savedLanguage = localStorage.getItem("language");
+    if (savedLanguage) {
+      setLanguage(savedLanguage); // This will trigger the next useEffect
+      console.log("Saved language:", savedLanguage);
+    }
+  }
+}, []);
+
+// Run fetch when `language` is updated
+useEffect(() => {
+  if (language) {
+    fetchAboutUsData();
+  }
+}, [language]); // Runs whenever `language` changes
+
+
+ 
     const fetchAboutUsData = async () => {
+      // if(!language) return;
+
       try {
-        const response = await fetch(`${serverurls}about-us/`);
-        const data = await response.json();
-        setAboutUsData(data.data);
-        setIsLoading(false);
+        if (language ) {
+          const response = await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:process.env.NEXT_PUBLIC_DJANGO_URLS}about-us/`);
+          const data = await response.json();
+          setAboutUsData(data.data);
+          setIsLoading(false);        }
+        
       } catch (error) {
         console.error("Error fetching About Us data:", error);
         setIsLoading(false);
       }
     };
    
-    fetchAboutUsData();
-  }, []);
+  
+  
 
   if (isLoading) {
     return <p>Loading...</p>;
   }
-
 
   return (
     
@@ -49,3 +87,5 @@ const ManageAboutUs = () => {
 };
 
 export default ManageAboutUs;
+
+

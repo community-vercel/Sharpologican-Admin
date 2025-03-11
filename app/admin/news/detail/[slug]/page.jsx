@@ -20,24 +20,36 @@ const AddportfolioDetails = () => {
   const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
   const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
   const [service, setServices] = useState();
+  const [language, setLanguage] = useState(); // Default language is English
   const [superAdmin, setSuperAdmin] = useState(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      // Now it's safe to use localStorage in the browser
       const superAdminData = localStorage.getItem("superAdmin");
       if (superAdminData) {
-        setSuperAdmin(JSON.parse(superAdminData));
+        setSuperAdmin(JSON.parse(superAdminData)); // Set state once with parsed value
+      }
+      const savedLanguage = localStorage.getItem('language');
+
+      if (savedLanguage) {
+        
+        setLanguage(savedLanguage); // Set the language from localStorage
       }
     }
   }, []);
-  useEffect(() => {
+    useEffect(() => {
+      if (language) {
+        getDetails();
+      }
+    }, [language]); // Runs whenever `language` changes
+    
+ 
     const getDetails = async () => {
       const formData = new FormData();
       formData.append("slug", params.slug);
 
       try {
-        const response = await fetch(`${serverurls}get-newsdetails/`, {
+        const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}get-newsdetails/`, {
           method: "POST",
 
           body: formData,
@@ -59,15 +71,7 @@ const AddportfolioDetails = () => {
         console.error("Error adding service:", error);
       }
     };
-    if (typeof window !== 'undefined') {
-      // Now it's safe to use localStorage in the browser
-      const superAdminData = localStorage.getItem("superAdmin");
-      if (superAdminData) {
-        setSuperAdmin(JSON.parse(superAdminData));
-      }
-    }
-    getDetails();
-  }, []);
+
 
 
 
@@ -87,10 +91,12 @@ const AddportfolioDetails = () => {
 
 
     try {
+      if ( !superAdmin || !language) return; // Ensure both are set before making the fetch request
+
       if (service && service) {
         formData.append("id", service.id);
 
-        const response = await fetch(`${serverurls}update-newsdetails/`, {
+        const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}update-newsdetails/`, {
           method: "POST",
           headers: {
             "x-super-admin": JSON.stringify(superAdmin), // Send super admin info in headers
@@ -102,7 +108,7 @@ const AddportfolioDetails = () => {
           router.push("/admin/news");
         }
       } else {
-        const response = await fetch(`${serverurls}add-newsdetails/`, {
+        const response = await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}add-newsdetails/`, {
           method: "POST",
           headers: {
             "x-super-admin": JSON.stringify(superAdmin), // Send super admin info in headers

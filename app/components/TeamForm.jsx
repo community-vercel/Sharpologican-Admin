@@ -11,7 +11,23 @@ const router=useRouter()
   const [description, setdescription] = useState('');
   const [des, setdes] = useState('');
   const [index, setindex] = useState();
+  const [language, setLanguage] = useState(); // Default language is English
+  const [superAdmin, setSuperAdmin] = useState(null);
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const superAdminData = localStorage.getItem("superAdmin");
+      if (superAdminData) {
+        setSuperAdmin(JSON.parse(superAdminData)); // Set state once with parsed value
+      }
+      const savedLanguage = localStorage.getItem('language');
+
+      if (savedLanguage) {
+        
+        setLanguage(savedLanguage); // Set the language from localStorage
+      }
+    }
+  }, []);
   useEffect(() => {
     if (teamMember) {
       setName(teamMember.name);
@@ -33,17 +49,7 @@ const router=useRouter()
   const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
   const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
 
-const [superAdmin, setSuperAdmin] = useState(null);
-  
-    useEffect(() => {
-      if (typeof window !== 'undefined') {
-        // Now it's safe to use localStorage in the browser
-        const superAdminData = localStorage.getItem("superAdmin");
-        if (superAdminData) {
-          setSuperAdmin(JSON.parse(superAdminData));
-        }
-      }
-    }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -62,7 +68,7 @@ const [superAdmin, setSuperAdmin] = useState(null);
 if(teamMember && teamMember.id){
   formData.append('id',teamMember.id);
 
-  const response = await fetch(`${serverurls}update-team/`, {
+  const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}update-team/`, {
     method: "POST",
     headers: {
   
@@ -82,7 +88,7 @@ if(teamMember && teamMember.id){
 
  
 // Send the data to the backend API for saving
-const response = await fetch(`${serverurls}add-team/`, {
+const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}add-team/`, {
   method: "POST",
   headers: {
 

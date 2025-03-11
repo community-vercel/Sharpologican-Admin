@@ -16,17 +16,29 @@ const [superAdmin, setSuperAdmin] = useState(null);
  
 
   const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
+  const [language, setLanguage] = useState(); // Default language is English
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const superAdminData = localStorage.getItem("superAdmin");
       if (superAdminData) {
         setSuperAdmin(JSON.parse(superAdminData)); // Set state once with parsed value
       }
+      const savedLanguage = localStorage.getItem('language');
+
+      if (savedLanguage) {
+        
+        setLanguage(savedLanguage); // Set the language from localStorage
+      }
     }
-  }, []); // Empty dependency array ensures it runs only once
+  }, []);// Empty dependency array ensures it runs only once
 
   useEffect(() => {
-    if (!id || !superAdmin) return; // Ensure both are set before making the fetch request
+    if (language) {
+      fetchService();
+    }
+  }, [language]); // Runs whenever `language` changes
+  
 
     const fetchService = async () => {
       const formData = new FormData();
@@ -44,8 +56,6 @@ const [superAdmin, setSuperAdmin] = useState(null);
       setportfolio(data.data);
     };
 
-    fetchService();
-  }, [id,superAdmin]);
 
   return (
     <Layout>

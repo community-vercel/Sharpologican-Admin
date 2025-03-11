@@ -16,6 +16,23 @@ const ServiceForm = ({ initialData = {} }) => {
   const [keywordInput, setKeywordInput] = useState("");
   const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
   const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
+   const [language, setLanguage] = useState(); // Default language is English
+    const [superAdmin, setSuperAdmin] = useState(null);
+  
+    useEffect(() => {
+      if (typeof window !== 'undefined') {
+        const superAdminData = localStorage.getItem("superAdmin");
+        if (superAdminData) {
+          setSuperAdmin(JSON.parse(superAdminData)); // Set state once with parsed value
+        }
+        const savedLanguage = localStorage.getItem('language');
+  
+        if (savedLanguage) {
+          
+          setLanguage(savedLanguage); // Set the language from localStorage
+        }
+      }
+    }, []);
   const handleKeywordKeyPress = (e) => {
     if (e.key === "Enter" && keywordInput.trim()) {
       e.preventDefault();
@@ -54,17 +71,8 @@ const ServiceForm = ({ initialData = {} }) => {
       }
     }
   };
-const [superAdmin, setSuperAdmin] = useState(null);
   
-    useEffect(() => {
-      if (typeof window !== 'undefined') {
-        // Now it's safe to use localStorage in the browser
-        const superAdminData = localStorage.getItem("superAdmin");
-        if (superAdminData) {
-          setSuperAdmin(JSON.parse(superAdminData));
-        }
-      }
-    }, []);
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
   
@@ -98,7 +106,7 @@ const [superAdmin, setSuperAdmin] = useState(null);
       if(initialData.id){
         formData.append("id", initialData.id);
 
-        const response = await fetch(`${serverurls}update-service/`, {
+        const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}update-service/`, {
           method: "POST",
           headers: {
   
@@ -120,7 +128,7 @@ const [superAdmin, setSuperAdmin] = useState(null);
             }
       }
       else{
-        const response = await fetch(`${serverurls}add-service/`, {
+        const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}add-service/`, {
           method: "POST",
           headers: {
   
@@ -163,10 +171,16 @@ const [superAdmin, setSuperAdmin] = useState(null);
 
   // Fetch metadata on component mount
   useEffect(() => {
+    if (language) {
+    fetchMetadata();
+    }
+  }, [language]); // Runs whenever `language` changes
+  
+ // Ensure both are set before making the fetch request
     const fetchMetadata = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`${serverurls}service-metadata/`);
+        const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}service-metadata/`);
         if (response.ok) {
           const data = await response.json();
           setMetadata(data);
@@ -180,8 +194,7 @@ const [superAdmin, setSuperAdmin] = useState(null);
         setLoading(false);
       }
     };
-    fetchMetadata();
-  }, []);
+ 
 
   // Handle form submission
   const handleSubmit2 = async (e) => {
@@ -194,7 +207,7 @@ const [superAdmin, setSuperAdmin] = useState(null);
     // metadata.append("meta_keywords", keywords.join(","));
     try {
       setLoading(true);
-      const response = await fetch(`${serverurls}post-metadata/`, {
+      const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}post-metadata/`, {
         method: "POST",
         headers: {
           'x-super-admin': JSON.stringify(superAdmin),  // Send super admin info in headers

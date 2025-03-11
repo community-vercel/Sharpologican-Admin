@@ -8,14 +8,20 @@ const ImageUploadForm = () => {
   const router = useRouter();
   const [clientImages, setClientImages] = useState([]);
 
+  const [language, setLanguage] = useState(); // Default language is English
   const [superAdmin, setSuperAdmin] = useState(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      // Now it's safe to use localStorage in the browser
       const superAdminData = localStorage.getItem("superAdmin");
       if (superAdminData) {
-        setSuperAdmin(JSON.parse(superAdminData));
+        setSuperAdmin(JSON.parse(superAdminData)); // Set state once with parsed value
+      }
+      const savedLanguage = localStorage.getItem('language');
+
+      if (savedLanguage) {
+        
+        setLanguage(savedLanguage); // Set the language from localStorage
       }
     }
   }, []);
@@ -27,16 +33,17 @@ const ImageUploadForm = () => {
   const [heading3, setheading3] = useState("");
 
   useEffect(() => {
+    if(!language) return;
     const fetchnewsData = async () => {
       try {
-        const response = await fetch(`${serverurls}contact/`);
+        const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}contact/`);
         const data = await response.json();
         setContactImage(serverurl + data.data.contact_image);
         setTitle(data.data.title)
         setheading(data.data.heading)
         setheading3(data.data.heading3)
 
-        const response3 = await fetch(`${serverurls}clients/`);
+        const response3 =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}clients/`);
         const data3 = await response3.json();
         setClientImages(data3.data);
       } catch (error) {
@@ -66,7 +73,7 @@ const ImageUploadForm = () => {
         console.log(image.client_id)
 
         const clientId = image.client_id;
-        const response = await fetch(`${serverurls}delete-image/${clientId}/`, {
+        const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}delete-image/${clientId}/`, {
           method: "DELETE",
         });
   
@@ -117,7 +124,7 @@ const ImageUploadForm = () => {
     // Handle form submission logic here, e.g., API request
 
     // Send the data to the backend API for saving
-    const response = await fetch(`${serverurls}add-contact/`, {
+    const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}add-contact/`, {
       method: "POST",
       headers: {
         "x-super-admin": JSON.stringify(superAdmin), // Send super admin info in headers

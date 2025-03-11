@@ -9,12 +9,32 @@ const NewsMangage = () => {
   const [newsData, setnewsData] = useState();
   const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
   const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
+  const [language, setLanguage] = useState(); // Default language is English
   const [superAdmin, setSuperAdmin] = useState(null);
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const superAdminData = localStorage.getItem("superAdmin");
+      if (superAdminData) {
+        setSuperAdmin(JSON.parse(superAdminData)); // Set state once with parsed value
+      }
+      const savedLanguage = localStorage.getItem('language');
+
+      if (savedLanguage) {
+        
+        setLanguage(savedLanguage); // Set the language from localStorage
+      }
+    }
+  }, []);
+  useEffect(() => {
+    if (language) {
+fetchnewsData();    }
+  }, [language]); // Runs whenever `language` changes
+  
+ 
     const fetchnewsData = async () => {
       try {
-        const response = await fetch(`${serverurls}news/`);
+        const response = await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}news/`);
         const data = await response.json();
         setnewsData(data.data);
       } catch (error) {
@@ -28,19 +48,21 @@ const NewsMangage = () => {
       if (superAdminData) {
         setSuperAdmin(JSON.parse(superAdminData));
       }
+      
     }
    
-    fetchnewsData();
-  }, []);
+
 
   const [isEditing, setIsEditing] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
 
 
   const handleDelete = async (id) => {
+    if ( !superAdmin || !language) return; // Ensure both are set before making the fetch request
+
     const formData = new FormData();
     formData.append('id',id);
-    const response = await fetch(`${serverurls}delete-news/`, {
+    const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}delete-news/`, {
     method: 'POST',
     headers: {
     

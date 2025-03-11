@@ -12,17 +12,31 @@ export default function AdminDashboard() {
   const [superAdmin, setSuperAdmin] = useState(null);
 
 
+    const [language, setLanguage] = useState(); // Default language is English
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const superAdminData = localStorage.getItem("superAdmin");
       if (superAdminData) {
         setSuperAdmin(JSON.parse(superAdminData)); // Set state once with parsed value
       }
+      const savedLanguage = localStorage.getItem('language');
+
+      if (savedLanguage) {
+        
+        setLanguage(savedLanguage); // Set the language from localStorage
+      }
     }
   }, []);
-  useEffect(() => {
+    useEffect(() => {
+      if (language) {
+        fetchData();
+      }
+    }, [language]); // Runs whenever `language` changes
+    
+
     const fetchData = async () => {
-      const response = await fetch(`${serverurls}get-data/`);
+      const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}get-data/`);
       const result = await response.json();
 
       setData(result);
@@ -30,11 +44,13 @@ export default function AdminDashboard() {
     };
 
     fetchData();
-  }, []);
+
 
   const deleteItem = async (type, id) => {
+    if ( !superAdmin || !language) return; // Ensure both are set before making the fetch request
+
     try {
-      const response = await fetch(`${serverurls}delete-data/`, {
+      const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}delete-data/`, {
         method: 'DELETE',
         headers: {
             "x-super-admin": JSON.stringify(superAdmin), // Send super admin info in headers

@@ -10,23 +10,35 @@ const QuoteRequests = ({ quoteRequests }) => {
 const [superAdmin, setSuperAdmin] = useState(null);
 
 
-useEffect(() => {
-  if (typeof window !== 'undefined') {
-    const superAdminData = localStorage.getItem("superAdmin");
-    if (superAdminData) {
-      setSuperAdmin(JSON.parse(superAdminData)); // Set state once with parsed value
-    }
-  }
-}, []);
+  const [language, setLanguage] = useState(); // Default language is English
+
   useEffect(() => {
-    if ( !superAdmin) return;
+    if (typeof window !== 'undefined') {
+      const superAdminData = localStorage.getItem("superAdmin");
+      if (superAdminData) {
+        setSuperAdmin(JSON.parse(superAdminData)); // Set state once with parsed value
+      }
+      const savedLanguage = localStorage.getItem('language');
+
+      if (savedLanguage) {
+        
+        setLanguage(savedLanguage); // Set the language from localStorage
+      }
+    }
+  }, []);
+  useEffect(() => {
+    if (language) {
+      getDetails();
+    }
+  }, [language]); // Runs whenever `language` changes
+  
 
 
     // This hook will run on the client side if you want to refetch the data.
     // For example, to implement polling or dynamic refresh:
 
 const getDetails=async ()=>{
-    const res = await fetch(`${serverurls}quote-requests/`,{
+    const res =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}quote-requests/`,{
         method: 'POST',
         headers: {
             "x-super-admin": JSON.stringify(superAdmin), // Send super admin info in headers
@@ -36,8 +48,7 @@ const getDetails=async ()=>{
       setRequests(data.quote_requests);
 }
 
- getDetails()   
-  }, [superAdmin]);
+
 
   return (
     <Layout>

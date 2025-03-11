@@ -18,17 +18,23 @@ const PortfolioForm = ({ onSubmit, portfolioItem }) => {
   const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
   const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
 
-const [superAdmin, setSuperAdmin] = useState(null);
-  
-    useEffect(() => {
-      if (typeof window !== 'undefined') {
-        // Now it's safe to use localStorage in the browser
-        const superAdminData = localStorage.getItem("superAdmin");
-        if (superAdminData) {
-          setSuperAdmin(JSON.parse(superAdminData));
-        }
+  const [language, setLanguage] = useState(); // Default language is English
+  const [superAdmin, setSuperAdmin] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const superAdminData = localStorage.getItem("superAdmin");
+      if (superAdminData) {
+        setSuperAdmin(JSON.parse(superAdminData)); // Set state once with parsed value
       }
-    }, []);  
+      const savedLanguage = localStorage.getItem('language');
+
+      if (savedLanguage) {
+        
+        setLanguage(savedLanguage); // Set the language from localStorage
+      }
+    }
+  }, []);
     const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -61,7 +67,7 @@ const [superAdmin, setSuperAdmin] = useState(null);
     if(portfolioItem && portfolioItem.id){
       formData.append('id',portfolioItem.id);
 
-      const response = await fetch(`${serverurls}update-portfolio/`, {
+      const response = await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}update-portfolio/`, {
         method: "POST",
         headers: {
   
@@ -77,7 +83,7 @@ const [superAdmin, setSuperAdmin] = useState(null);
       }
     }
     else{
-      const response = await fetch(`${serverurls}add-portfolio/`, {
+      const response = await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}add-portfolio/`, {
         method: "POST",
         headers: {
   

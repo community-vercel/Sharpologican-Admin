@@ -13,24 +13,35 @@ const EditService = () => {
   console.log("id ",id)
   const [superAdmin, setSuperAdmin] = useState(null);
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      // Now it's safe to use localStorage in the browser
-      const superAdminData = localStorage.getItem("superAdmin");
-      if (superAdminData) {
-        setSuperAdmin(JSON.parse(superAdminData));
-      }
-    }
-  }, []); 
-  const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
-  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
+  const [language, setLanguage] = useState(); // Default language is English
 
   useEffect(() => {
-    if (!id || !superAdmin) return; // Ensure both are set before making the fetch request
+    if (typeof window !== 'undefined') {
+      const superAdminData = localStorage.getItem("superAdmin");
+      if (superAdminData) {
+        setSuperAdmin(JSON.parse(superAdminData)); // Set state once with parsed value
+      }
+      const savedLanguage = localStorage.getItem('language');
+
+      if (savedLanguage) {
+        
+        setLanguage(savedLanguage); // Set the language from localStorage
+      }
+    }
+  }, []);
+  const serverurl=process.env.NEXT_PUBLIC_DJANGO_URL;
+  const serverurls=process.env.NEXT_PUBLIC_DJANGO_URLS;
+  useEffect(() => {
+    if (language) {
+      fetchService();
+    }
+  }, [language]); // Runs whenever `language` changes
+  
+ // Ensure both are set before making the fetch request
     const fetchService = async () => {
       const formData = new FormData();
     formData.append('id',id);
-    const response = await fetch(`${serverurls}get-counts/`, {
+    const response =  await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:''}get-counts/`, {
     method: 'POST',
     headers: {
     
@@ -43,8 +54,7 @@ const EditService = () => {
       setService(data.data);
     };
 
-    fetchService();
-  }, [id,superAdmin]);
+
 
   return (
     <Layout>
