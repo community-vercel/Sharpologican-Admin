@@ -31,9 +31,13 @@ const ImageUploadForm = () => {
   const [title, setTitle] = useState("");
   const [heading, setheading] = useState("");
   const [heading3, setheading3] = useState("");
-
   useEffect(() => {
-    if(!language) return;
+    if(language){
+      fetchnewsData();
+
+    }
+  }, [language]);
+
     const fetchnewsData = async () => {
       try {
         const response =   await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:language==='de'?process.env.NEXT_PUBLIC_DJANGO_URLS_DE:language==='nl'?process.env.NEXT_PUBLIC_DJANGO_URLS_NL:''}contact/`);
@@ -50,9 +54,7 @@ const ImageUploadForm = () => {
         console.error("Error fetching About Us data:", error);
       }
     };
-
-    fetchnewsData();
-  }, []);
+  
 
   // Handle image change for Client Image
 
@@ -73,7 +75,7 @@ const ImageUploadForm = () => {
         console.log(image.client_id)
 
         const clientId = image.client_id;
-        const response =   await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:language==='de'?process.env.NEXT_PUBLIC_DJANGO_URLS_DE:language==='nl'?process.env.NEXT_PUBLIC_DJANGO_URLS_NL:''}delete-image/${clientId}/`, {
+        const response = await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:language==='de'?process.env.NEXT_PUBLIC_DJANGO_URLS_DE:language==='nl'?process.env.NEXT_PUBLIC_DJANGO_URLS_NL:''}delete-image/${clientId}/`, {
           method: "DELETE",
         });
   
@@ -124,7 +126,7 @@ const ImageUploadForm = () => {
     // Handle form submission logic here, e.g., API request
 
     // Send the data to the backend API for saving
-    const response =   await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:language==='de'?process.env.NEXT_PUBLIC_DJANGO_URLS_DE:language==='nl'?process.env.NEXT_PUBLIC_DJANGO_URLS_NL:''}add-contact/`, {
+    const response = await fetch(`${language==='en'?process.env.NEXT_PUBLIC_DJANGO_URLS:language==='es'?process.env.NEXT_PUBLIC_DJANGO_URLS_ES:language==='fr'?process.env.NEXT_PUBLIC_DJANGO_URLS_FR:language==='de'?process.env.NEXT_PUBLIC_DJANGO_URLS_DE:language==='nl'?process.env.NEXT_PUBLIC_DJANGO_URLS_NL:''}add-contact/`, {
       method: "POST",
       headers: {
         "x-super-admin": JSON.stringify(superAdmin), // Send super admin info in headers
