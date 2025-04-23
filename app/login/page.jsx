@@ -9,14 +9,17 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
  const [language, setLanguage] = useState('en'); // Default language is English
-
-  useEffect(() => {
+ useEffect(() => {
     // Check if user data is available in localStorage (this indicates login)
     const user = localStorage.getItem('superAdmin');
     const savedLanguage = localStorage.getItem('language');
-
+console.log("savedLanguage",savedLanguage);
     if (savedLanguage) {
       setLanguage(savedLanguage); // Set the language from localStorage
+    }
+    else{
+      localStorage.setItem('language','en'); // Save the selected language
+
     }
 
     if (!user) {
@@ -64,7 +67,7 @@ export default function Login() {
     }
   };
   const handleLanguageChange = (event) => {
-    const selectedLanguage = event.target.value;
+    const selectedLanguage = event.target.value || 'en';
     setLanguage(selectedLanguage);
     localStorage.setItem('language',selectedLanguage); // Save the selected language
   };
